@@ -1,0 +1,6 @@
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+package net.minecraft.network.protocol;
+
+import com.workerai.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;

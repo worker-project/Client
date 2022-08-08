@@ -1,0 +1,6 @@
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+package net.minecraft.server.level.progress;
+
+import com.workerai.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;

@@ -1,0 +1,6 @@
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+package net.minecraft.core.cauldron;
+
+import com.workerai.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;

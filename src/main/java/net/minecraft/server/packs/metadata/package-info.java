@@ -1,0 +1,6 @@
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+package net.minecraft.server.packs.metadata;
+
+import com.workerai.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;

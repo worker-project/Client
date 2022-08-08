@@ -1,0 +1,6 @@
+@ParametersAreNonnullByDefault
+@MethodsReturnNonnullByDefault
+package net.minecraft.network.syncher;
+
+import com.workerai.MethodsReturnNonnullByDefault;
+import javax.annotation.ParametersAreNonnullByDefault;

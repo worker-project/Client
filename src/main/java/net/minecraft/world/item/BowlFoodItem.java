@@ -1,0 +1,19 @@
+package net.minecraft.world.item;
+
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+
+public class BowlFoodItem extends Item
+{
+    public BowlFoodItem(Item.Properties p_40682_)
+    {
+        super(p_40682_);
+    }
+
+    public ItemStack finishUsingItem(ItemStack pStack, Level pLevel, LivingEntity pEntityLiving)
+    {
+        ItemStack itemstack = super.finishUsingItem(pStack, pLevel, pEntityLiving);
+        return pEntityLiving instanceof Player && ((Player)pEntityLiving).getAbilities().instabuild ? itemstack : new ItemStack(Items.BOWL);
+    }
+}
