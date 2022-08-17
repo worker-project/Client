@@ -8,6 +8,6 @@ public class ServerReconnect {
     @InvokeEvent()
     public void onHypixelServerChange(ReconnectEvent event) {
         ReconnectUtils.setCurrentServerID(event.getCurrentServerID());
-        //ReconnectUtils.connectToServer();
+        ReconnectUtils.connectToServer();
     }
 }

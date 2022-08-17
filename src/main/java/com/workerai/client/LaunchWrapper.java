@@ -18,7 +18,7 @@ public class LaunchWrapper {
             Main.main(concat(new String[]{"--version", "com/workerai", "--accessToken", "0", "--assetsDir", assets, "--assetIndex", "1.18", "--userProperties", "{}"}, args));
         }
 
-        Main.main(concat(new String[]{"--version", "com/workerai", "--accessToken", auth.getAccessToken(), "--username", auth.getUsername(), "--uuid", auth.getUuid(), "--assetsDir", assets, "--assetIndex", "1.18", "--userProperties", "{}"}, args));
+        Main.main(concat(new String[]{"--version", "com/workerai", "--accessToken", auth.getAccessToken(), "--username", auth.getUsername(), "--uuid", auth.getUuid(), "--assetsDir", assets, "--assetIndex", "1.18", "--userProperties", "{}", "--token", "0"}, args));
     }
 
     public static <T> T[] concat(T[] first, T[] second) {

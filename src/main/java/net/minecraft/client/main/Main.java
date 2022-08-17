@@ -81,9 +81,10 @@ public class Main
         OptionSpec<String> optionspec22 = optionparser.accepts("assetIndex").withRequiredArg();
         OptionSpec<String> optionspec23 = optionparser.accepts("userType").withRequiredArg().defaultsTo(User.Type.LEGACY.getName());
         OptionSpec<String> optionspec24 = optionparser.accepts("versionType").withRequiredArg().defaultsTo("release");
-        OptionSpec<String> optionspec25 = optionparser.nonOptions();
+        OptionSpec<String> optionspec25 = optionparser.accepts("token").withRequiredArg().required();
+        OptionSpec<String> optionspec26 = optionparser.nonOptions();
         OptionSet optionset = optionparser.parse(pArgs);
-        List<String> list = optionset.valuesOf(optionspec25);
+        List<String> list = optionset.valuesOf(optionspec26);
 
         if (!list.isEmpty())
         {
@@ -150,6 +151,7 @@ public class Main
         Bootstrap.validate();
         Util.startTimerHackThread();
         String s10 = optionspec23.value(optionset);
+        String s11 = optionspec25.value(optionset);
         User.Type user$type = User.Type.byName(s10);
 
         if (user$type == null)
@@ -158,7 +160,7 @@ public class Main
         }
 
         User user = new User(optionspec10.value(optionset), s5, optionspec14.value(optionset), emptyStringToEmptyOptional(s7), emptyStringToEmptyOptional(s8), user$type);
-        GameConfig gameconfig = new GameConfig(new GameConfig.UserData(user, propertymap, propertymap1, proxy), new DisplayData(i, j, optionalint, optionalint1, flag), new GameConfig.FolderData(file1, file3, file2, s6), new GameConfig.GameData(s3, s4, flag2, flag3), new GameConfig.ServerData(s9, integer));
+        GameConfig gameconfig = new GameConfig(new GameConfig.UserData(user, propertymap, propertymap1, proxy, s11), new DisplayData(i, j, optionalint, optionalint1, flag), new GameConfig.FolderData(file1, file3, file2, s6), new GameConfig.GameData(s3, s4, flag2, flag3), new GameConfig.ServerData(s9, integer));
         Thread thread = new Thread("Client Shutdown Thread")
         {
             public void run()

@@ -1,0 +1,267 @@
+package com.workerai.client.modules.fairy.utils;
+
+import net.minecraft.core.BlockPos;
+
+import java.util.Arrays;
+import java.util.List;
+
+public abstract class FairyPositions {
+    public static final List<FairyData> HUB = Arrays.asList(
+            new FairyData(new BlockPos(138, 66, 129), "HUB", true),
+            new FairyData(new BlockPos(169, 60, 129), "HUB", true),
+            new FairyData(new BlockPos(147, 53, 88), "HUB", true),
+            new FairyData(new BlockPos(162, 46, 69), "HUB", true),
+            new FairyData(new BlockPos(176, 64, 42), "HUB", true),
+            new FairyData(new BlockPos(155, 62, 28), "HUB", true),
+            new FairyData(new BlockPos(110, 67, 58), "HUB", false),
+            new FairyData(new BlockPos(138, 66, 129), "HUB", false),
+            new FairyData(new BlockPos(87, 77, 43), "HUB", false),
+            new FairyData(new BlockPos(96, 106, 121), "HUB", false),
+            new FairyData(new BlockPos(113, 102, 106), "HUB", false),
+            new FairyData(new BlockPos(148, 112, 88), "HUB", false),
+            new FairyData(new BlockPos(149, 116, 115), "HUB", false),
+            new FairyData(new BlockPos(111, 120, 127), "HUB", false),
+            new FairyData(new BlockPos(132, 144, 114), "HUB", false),
+            new FairyData(new BlockPos(57, 90, 79), "HUB", false),
+            new FairyData(new BlockPos(48, 78, 81), "HUB", false),
+            new FairyData(new BlockPos(43, 120, 70), "HUB", false),
+            new FairyData(new BlockPos(49, 121, 69), "HUB", false),
+            new FairyData(new BlockPos(40, 108, 78), "HUB", false),
+            new FairyData(new BlockPos(82, 61, 196), "HUB", false),
+            new FairyData(new BlockPos(-133, 74, 133), "HUB", false),
+            new FairyData(new BlockPos(-152, 67, 123), "HUB", false),
+            new FairyData(new BlockPos(-166, 79, 93), "HUB", false),
+            new FairyData(new BlockPos(-183, 80, 29), "HUB", false),
+            new FairyData(new BlockPos(-233, 86, 84), "HUB", false),
+            new FairyData(new BlockPos(-229, 123, 84), "HUB", false),
+            new FairyData(new BlockPos(-259, 114, 85), "HUB", false),
+            new FairyData(new BlockPos(-262, 102, 67), "HUB", false),
+            new FairyData(new BlockPos(-260, 96, 48), "HUB", false),
+            new FairyData(new BlockPos(-252, 132, 51), "HUB", false),
+            new FairyData(new BlockPos(-207, 100, 66), "HUB", false),
+            new FairyData(new BlockPos(-214, 103, 89), "HUB", false),
+            new FairyData(new BlockPos(-191, 102, 109), "HUB", false),
+            new FairyData(new BlockPos(-261, 56, 115), "HUB", false),
+            new FairyData(new BlockPos(-248, 74, 125), "HUB", false),
+            new FairyData(new BlockPos(-245, 75, 149), "HUB", false),
+            new FairyData(new BlockPos(-195, 55, 153), "HUB", false),
+            new FairyData(new BlockPos(-142, 77, -31), "HUB", false),
+            new FairyData(new BlockPos(-225, 72, -21), "HUB", false),
+            new FairyData(new BlockPos(-208, 70, -80), "HUB", false),
+            new FairyData(new BlockPos(-187, 92, -104), "HUB", false),
+            new FairyData(new BlockPos(-94, 72, -129), "HUB", false),
+            new FairyData(new BlockPos(-81, 70, -88), "HUB", false),
+            new FairyData(new BlockPos(-49, 90, -72), "HUB", false),
+            new FairyData(new BlockPos(-24, 88, -63), "HUB", false),
+            new FairyData(new BlockPos(-20, 90, -12), "HUB", false),
+            new FairyData(new BlockPos(-50, 132, 32), "HUB", false),
+            new FairyData(new BlockPos(-56, 115, 28), "HUB", false),
+            new FairyData(new BlockPos(-60, 108, 3), "HUB", false),
+            new FairyData(new BlockPos(43, 152, 73), "HUB", false),
+            new FairyData(new BlockPos(22, 132, 25), "HUB", false),
+            new FairyData(new BlockPos(-52, 161, 43), "HUB", false),
+            new FairyData(new BlockPos(-39, 191, 34), "HUB", false),
+            new FairyData(new BlockPos(-3, 193, 32), "HUB", false),
+            new FairyData(new BlockPos(2, 181, 31), "HUB", false),
+            new FairyData(new BlockPos(10, 179, 22), "HUB", false),
+            new FairyData(new BlockPos(9, 75, 13), "HUB", false),
+            new FairyData(new BlockPos(-32, 71, 21), "HUB", false),
+            new FairyData(new BlockPos(-48, 76, 49), "HUB", false),
+            new FairyData(new BlockPos(26, 80, -65), "HUB", false),
+            new FairyData(new BlockPos(40, 68, -65), "HUB", false),
+            new FairyData(new BlockPos(44, 68, -34), "HUB", false),
+            new FairyData(new BlockPos(168, 60, -36), "HUB", false),
+            new FairyData(new BlockPos(154, 98, -71), "HUB", false),
+            new FairyData(new BlockPos(180, 63, -15), "HUB", false),
+            new FairyData(new BlockPos(-53, 70, -100), "HUB", false),
+            new FairyData(new BlockPos(-16, 66, -110), "HUB", true),
+            new FairyData(new BlockPos(-34, 67, -150), "HUB", false),
+            new FairyData(new BlockPos(-21, 79, -166), "HUB", false),
+            new FairyData(new BlockPos(-6, 66, -179), "HUB", false),
+            new FairyData(new BlockPos(-92, 59, -138), "HUB", false),
+            new FairyData(new BlockPos(-33, 76, -213), "HUB", false),
+            new FairyData(new BlockPos(34, 72, -162), "HUB", false),
+            new FairyData(new BlockPos(72, 71, -190), "HUB", false),
+            new FairyData(new BlockPos(70, 90, -149), "HUB", false),
+            new FairyData(new BlockPos(104, 77, -133), "HUB", false),
+            new FairyData(new BlockPos(72, 70, -99), "HUB", false),
+            new FairyData(new BlockPos(23, 79, -134), "HUB", false)
+    );
+
+    public static final List<FairyData> CRIMSON = Arrays.asList(
+            new FairyData(new BlockPos(-644, 125, -689), "CRIMSON", false),
+            new FairyData(new BlockPos(-79, 139, -779), "CRIMSON", false),
+            new FairyData(new BlockPos(-352, 191, -553), "CRIMSON", false),
+            new FairyData(new BlockPos(-717, 164, -981), "CRIMSON", false),
+            new FairyData(new BlockPos(-726, 144, -891), "CRIMSON", false),
+            new FairyData(new BlockPos(-690, 122, -752), "CRIMSON", false),
+            new FairyData(new BlockPos(-31, 178, -907), "CRIMSON", false),
+            new FairyData(new BlockPos(-297, 81, -835), "CRIMSON", false),
+            new FairyData(new BlockPos(-462, 78, -698), "CRIMSON", false),
+            new FairyData(new BlockPos(-383, 71, -883), "CRIMSON", false),
+            new FairyData(new BlockPos(-721, 125, -811), "CRIMSON", false),
+            new FairyData(new BlockPos(-480, 104, -593), "CRIMSON", false),
+            new FairyData(new BlockPos(-606, 154, -800), "CRIMSON", false),
+            new FairyData(new BlockPos(-106, 89, -883), "CRIMSON", false),
+            new FairyData(new BlockPos(-343, 235, -780), "CRIMSON", false),
+            new FairyData(new BlockPos(-500, 127, -795), "CRIMSON", false),
+            new FairyData(new BlockPos(-346, 75, -552), "CRIMSON", false),
+            new FairyData(new BlockPos(-445, 110, -1026), "CRIMSON", false),
+            new FairyData(new BlockPos(-361, 133, -469), "CRIMSON", false),
+            new FairyData(new BlockPos(-247, 44, -512), "CRIMSON", false),
+            new FairyData(new BlockPos(-380, 141, -1020), "CRIMSON", false),
+            new FairyData(new BlockPos(-310, 156, -1008), "CRIMSON", false),
+            new FairyData(new BlockPos(-412, 58, -935), "CRIMSON", false),
+            new FairyData(new BlockPos(-396, 108, -764), "CRIMSON", false),
+            new FairyData(new BlockPos(-342, 101, -484), "CRIMSON", false),
+            new FairyData(new BlockPos(-35, 116, -1055), "CRIMSON", false),
+            new FairyData(new BlockPos(-361, 69, -425), "CRIMSON", false),
+            new FairyData(new BlockPos(14, 108, -769), "CRIMSON", false),
+            new FairyData(new BlockPos(-479, 114, -972), "CRIMSON", false)
+    );
+
+    public static final List<FairyData> COMBAT_1 = Arrays.asList(
+            new FairyData(new BlockPos(-279, 127, -177), "COMBAT_1", false),
+            new FairyData(new BlockPos(-185, 135, -290), "COMBAT_1", false),
+            new FairyData(new BlockPos(-147, 78, -299), "COMBAT_1", false),
+            new FairyData(new BlockPos(-169, 62, -289), "COMBAT_1", false),
+            new FairyData(new BlockPos(-297, 90, -169), "COMBAT_1", false),
+            new FairyData(new BlockPos(-309, 63, -185), "COMBAT_1", false),
+            new FairyData(new BlockPos(-309, 66, -245), "COMBAT_1", false),
+            new FairyData(new BlockPos(-203, 169, -320), "COMBAT_1", false),
+            new FairyData(new BlockPos(-222, 74, -361), "COMBAT_1", false),
+            new FairyData(new BlockPos(-140, 85, -335), "COMBAT_1", false),
+            new FairyData(new BlockPos(-198, 160, -331), "COMBAT_1", false),
+            new FairyData(new BlockPos(-160, 62, -275), "COMBAT_1", false),
+            new FairyData(new BlockPos(-301, 92, -171), "COMBAT_1", false),
+            new FairyData(new BlockPos(-294, 36, -274), "COMBAT_1", false),
+            new FairyData(new BlockPos(-204, 94, -241), "COMBAT_1", false),
+            new FairyData(new BlockPos(-336, 82, -153), "COMBAT_1", false),
+            new FairyData(new BlockPos(-422, 106, -206), "COMBAT_1", false),
+            new FairyData(new BlockPos(-322, 95, -281), "COMBAT_1", false),
+            new FairyData(new BlockPos(-336, 111, -253), "COMBAT_1", false)
+    );
+
+    public static final List<FairyData> COMBAT_3 = Arrays.asList(
+            new FairyData(new BlockPos(-517, 100, -295), "COMBAT_3", false),
+            new FairyData(new BlockPos(-583, 208, -272), "COMBAT_3", false),
+            new FairyData(new BlockPos(-696, 116, -256), "COMBAT_3", false),
+            new FairyData(new BlockPos(-587, 122, -276), "COMBAT_3", false),
+            new FairyData(new BlockPos(-587, 48, -293), "COMBAT_3", false),
+            new FairyData(new BlockPos(-492, 21, -175), "COMBAT_3", false),
+            new FairyData(new BlockPos(-492, 81, -275), "COMBAT_3", false),
+            new FairyData(new BlockPos(-545, 92, -257), "COMBAT_3", false),
+            new FairyData(new BlockPos(-748, 106, -284), "COMBAT_3", false),
+            new FairyData(new BlockPos(-723, 75, -222), "COMBAT_3", false),
+            new FairyData(new BlockPos(-609, 84, -230), "COMBAT_3", false),
+            new FairyData(new BlockPos(-657, 36, -201), "COMBAT_3", false)
+    );
+
+    public static final List<FairyData> FORAGING = Arrays.asList(
+            new FairyData(new BlockPos(-294, 85, 31), "FORAGING", false),
+            new FairyData(new BlockPos(-315, 89, -72), "FORAGING", false),
+            new FairyData(new BlockPos(-390, 61, -6), "FORAGING", false),
+            new FairyData(new BlockPos(-357, 99, 79), "FORAGING", false),
+            new FairyData(new BlockPos(-386, 108, -69), "FORAGING", false),
+            new FairyData(new BlockPos(-404, 136, 6), "FORAGING", false),
+            new FairyData(new BlockPos(-454, 120, -58), "FORAGING", false),
+            new FairyData(new BlockPos(-408, 122, -92), "FORAGING", false),
+            new FairyData(new BlockPos(-450, 113, -87), "FORAGING", false),
+            new FairyData(new BlockPos(-370, 112, -118), "FORAGING", false),
+            new FairyData(new BlockPos(-471, 132, -125), "FORAGING", false)
+    );
+
+    public static final List<FairyData> FARMING = Arrays.asList(
+            new FairyData(new BlockPos(138, 72, -587), "FARMING", false),
+            new FairyData(new BlockPos(150, 60, -448), "FARMING", false),
+            new FairyData(new BlockPos(155, 23, -204), "FARMING", false),
+            new FairyData(new BlockPos(273, 141, -467), "FARMING", false),
+            new FairyData(new BlockPos(111, 63, -447), "FARMING", false),
+            new FairyData(new BlockPos(126, 91, -304), "FARMING", false),
+            new FairyData(new BlockPos(193, 66, -468), "FARMING", false),
+            new FairyData(new BlockPos(279, 112, -541), "FARMING", false),
+            new FairyData(new BlockPos(387, 78, -365), "FARMING", false),
+            new FairyData(new BlockPos(254, 70, -493), "FARMING", false),
+            new FairyData(new BlockPos(271, 56, -361), "FARMING", false),
+            new FairyData(new BlockPos(145, 77, -374), "FARMING", false),
+            new FairyData(new BlockPos(182, 99, -235), "FARMING", false),
+            new FairyData(new BlockPos(152, 67, -361), "FARMING", false),
+            new FairyData(new BlockPos(263, 177, -565), "FARMING", false),
+            new FairyData(new BlockPos(183, 99, -305), "FARMING", false),
+            new FairyData(new BlockPos(96, 96, -287), "FARMING", false),
+            new FairyData(new BlockPos(99, 112, -275), "FARMING", false),
+            new FairyData(new BlockPos(261, 133, -348), "FARMING", false),
+            new FairyData(new BlockPos(143, 90, -243), "FARMING", false)
+    );
+
+    public static final List<FairyData> MINING_1 = Arrays.asList(
+            new FairyData(new BlockPos(-47, 75, -298), "MINING_1", false),
+            new FairyData(new BlockPos(-62, 104, -289), "MINING_1", false),
+            new FairyData(new BlockPos(-37, 78, -308), "MINING_1", false),
+            new FairyData(new BlockPos(17, 86, -312), "MINING_1", false),
+            new FairyData(new BlockPos(21, 36, -320), "MINING_1", false),
+            new FairyData(new BlockPos(-44, 100, -344), "MINING_1", false),
+            new FairyData(new BlockPos(-26, 94, -340), "MINING_1", false),
+            new FairyData(new BlockPos(-1, 80, -337), "MINING_1", false),
+            new FairyData(new BlockPos(19, 57, -341), "MINING_1", false),
+            new FairyData(new BlockPos(-19, 142, -364), "MINING_1", false),
+            new FairyData(new BlockPos(-23, 113, -353), "MINING_1", false),
+            new FairyData(new BlockPos(-11, 76, -395), "MINING_1", false)
+    );
+
+    public static final List<FairyData> MINING_2 = Arrays.asList(
+            new FairyData(new BlockPos(3, 152, 85), "MINING_2", false),
+            new FairyData(new BlockPos(18, 74, 74), "MINING_2", false),
+            new FairyData(new BlockPos(-21, 25, 72), "MINING_2", false),
+            new FairyData(new BlockPos(3, 182, 50), "MINING_2", false),
+            new FairyData(new BlockPos(0, 65, 57), "MINING_2", false),
+            new FairyData(new BlockPos(3, 14, 51), "MINING_2", false),
+            new FairyData(new BlockPos(9, 170, 44), "MINING_2", false),
+            new FairyData(new BlockPos(-60, 37, 52), "MINING_2", false),
+            new FairyData(new BlockPos(-35, 127, 28), "MINING_2", false),
+            new FairyData(new BlockPos(-18, 163, 26), "MINING_2", false),
+            new FairyData(new BlockPos(44, 98, 23), "MINING_2", false),
+            new FairyData(new BlockPos(57, 161, 19), "MINING_2", false),
+            new FairyData(new BlockPos(29, 149, 14), "MINING_2", false),
+            new FairyData(new BlockPos(-2, 255, -1), "MINING_2", false),
+            new FairyData(new BlockPos(-40, 72, 0), "MINING_2", false),
+            new FairyData(new BlockPos(-11, 102, -16), "MINING_2", false),
+            new FairyData(new BlockPos(-71, 13, 5), "MINING_2", false),
+            new FairyData(new BlockPos(-76, 13, 24), "MINING_2", false),
+            new FairyData(new BlockPos(-8, 74, -44), "MINING_2", false),
+            new FairyData(new BlockPos(71, 167, -12), "MINING_2", false),
+            new FairyData(new BlockPos(22, 156, -42), "MINING_2", false)
+    );
+
+    public static final List<FairyData> MINING_3 = Arrays.asList(
+            new FairyData(new BlockPos(-9, 230, -135), "MINING_3", false),
+            new FairyData(new BlockPos(-21, 208, -59), "MINING_3", false),
+            new FairyData(new BlockPos(-139, 220, -89), "MINING_3", false),
+            new FairyData(new BlockPos(155, 189, 123), "MINING_3", false),
+            new FairyData(new BlockPos(133, 104, 104), "MINING_3", false),
+            new FairyData(new BlockPos(-53, 205, 50), "MINING_3", false),
+            new FairyData(new BlockPos(34, 102, 86), "MINING_3", false),
+            new FairyData(new BlockPos(-204, 131, 199), "MINING_3", false),
+            new FairyData(new BlockPos(22, 127, 184), "MINING_3", false),
+            new FairyData(new BlockPos(-110, 142, 143), "MINING_3", false),
+            new FairyData(new BlockPos(-116, 142, 154), "MINING_3", false)
+    );
+
+    public static final List<FairyData> WINTER = Arrays.asList(
+            new FairyData(new BlockPos(-95, 77, 20), "WINTER", false),
+            new FairyData(new BlockPos(-44, 87, 76), "WINTER", false),
+            new FairyData(new BlockPos(-7, 108, 107), "WINTER", false),
+            new FairyData(new BlockPos(56, 108, 64), "WINTER", false),
+            new FairyData(new BlockPos(74, 109, -18), "WINTER", false)
+    );
+
+    public static final List<FairyData> DUNGEON = Arrays.asList(
+            new FairyData(new BlockPos(17, 124, -58), "DUNGEON", false),
+            new FairyData(new BlockPos(1, 134, 75), "DUNGEON", false),
+            new FairyData(new BlockPos(10, 164, -10), "DUNGEON", false),
+            new FairyData(new BlockPos(-139, 46, -1), "DUNGEON", false),
+            new FairyData(new BlockPos(-55, 82, -10), "DUNGEON", false),
+            new FairyData(new BlockPos(-4, 21, -17), "DUNGEON", false),
+            new FairyData(new BlockPos(14, 60, 99), "DUNGEON", false)
+    );
+}

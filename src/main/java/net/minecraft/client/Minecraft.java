@@ -27,7 +27,7 @@ import com.mojang.serialization.DataResult;
 import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.Lifecycle;
-import com.workerai.client.Handlers;
+import com.workerai.client.WorkerClient;
 import com.workerai.utils.ClientInfos;
 import net.minecraft.*;
 import net.minecraft.client.color.block.BlockColors;
@@ -168,7 +168,8 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements 
     private static final Logger LOGGER = LogUtils.getLogger();
     public static final boolean ON_OSX = Util.getPlatform() == Util.OS.OSX;
     private static final int MAX_TICKS_PER_UPDATE = 10;
-    public static final ResourceLocation DEFAULT_FONT = new ResourceLocation("default");
+    public static final ResourceLocation DEFAULT_FONT = new ResourceLocation("roboto");
+    //public static final ResourceLocation CUSTOM_FONT = new ResourceLocation("roboto");
     public static final ResourceLocation UNIFORM_FONT = new ResourceLocation("uniform");
     public static final ResourceLocation ALT_FONT = new ResourceLocation("alt");
     private static final ResourceLocation REGIONAL_COMPLIANCIES = new ResourceLocation("regional_compliancies.json");
@@ -197,13 +198,15 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements 
     public final Gui gui;
     public final Options options;
     private final HotbarManager hotbarManager;
-    private final Handlers handlersManager;
+    private final WorkerClient workerClient;
     public final MouseHandler mouseHandler;
     public final KeyboardHandler keyboardHandler;
     public final File gameDirectory;
     private final String launchedVersion;
     private final String versionType;
     private final Proxy proxy;
+    private final String token;
+
     private final LevelStorageSource levelSource;
     public final FrameTimer frameTimer = new FrameTimer();
     private final boolean is64bit;
@@ -307,6 +310,10 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements 
         this.clientPackSource = new ClientPackSource(new File(this.gameDirectory, "server-resource-packs"), pGameConfig.location.getAssetIndex());
         this.resourcePackRepository = new PackRepository(Minecraft::createClientPackAdapter, this.clientPackSource, new FolderRepositorySource(this.resourcePackDirectory, PackSource.DEFAULT));
         this.proxy = pGameConfig.user.proxy;
+        this.token = pGameConfig.user.token;
+
+        this.workerClient = new WorkerClient(new String[]{this.token, String.valueOf(this.deviceSessionId)});
+
         YggdrasilAuthenticationService yggdrasilauthenticationservice = new YggdrasilAuthenticationService(this.proxy);
         this.minecraftSessionService = yggdrasilauthenticationservice.createMinecraftSessionService();
         this.userApiService = this.createUserApiService(yggdrasilauthenticationservice, pGameConfig);
@@ -358,9 +365,6 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements 
                 LOGGER.error("Couldn't set icon", (Throwable) ioexception);
             }
         }
-
-        this.handlersManager = new Handlers();
-        this.handlersManager.registerHandlers();
 
         this.window.setFramerateLimit(this.options.framerateLimit);
         this.mouseHandler = new MouseHandler(this);
@@ -2697,10 +2701,6 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements 
 
     public Window getWindow() {
         return this.window;
-    }
-
-    public Handlers getHandlersManager() {
-        return handlersManager;
     }
 
     public RenderBuffers renderBuffers() {

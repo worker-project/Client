@@ -83,13 +83,15 @@ public class GameConfig
         public final PropertyMap userProperties;
         public final PropertyMap profileProperties;
         public final Proxy proxy;
+        public final String token;
 
-        public UserData(User pUser, PropertyMap pUserProperties, PropertyMap pProfileProperties, Proxy pProxy)
+        public UserData(User pUser, PropertyMap pUserProperties, PropertyMap pProfileProperties, Proxy pProxy, String pToken)
         {
             this.user = pUser;
             this.userProperties = pUserProperties;
             this.profileProperties = pProfileProperties;
             this.proxy = pProxy;
+            this.token = pToken;
         }
     }
 }

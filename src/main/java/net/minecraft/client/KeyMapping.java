@@ -32,6 +32,7 @@ public class KeyMapping implements Comparable<KeyMapping>
         p_90845_.put("key.categories.multiplayer", 5);
         p_90845_.put("key.categories.ui", 6);
         p_90845_.put("key.categories.misc", 7);
+        p_90845_.put("WorkerIA", 8);
     });
     private final String name;
     private final InputConstants.Key defaultKey;
