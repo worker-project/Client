@@ -1,6 +1,7 @@
 package net.minecraft.client.gui.screens;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.workerai.client.screens.ModulesScreen;
 import com.workerai.utils.ClientInfos;
 import net.minecraft.Util;
 import net.minecraft.client.gui.components.Button;
@@ -36,9 +37,9 @@ public class PauseScreen extends Screen
             this.minecraft.setScreen((Screen)null);
             this.minecraft.mouseHandler.grabMouse();
         }));
-        this.addRenderableWidget(new Button(this.width / 2 - 102, this.height / 4 + 48 + -16, 204, 20, new TextComponent("WorkerIA Settings"), (p_96338_) ->
+        this.addRenderableWidget(new Button(this.width / 2 - 102, this.height / 4 + 48 + -16, 204, 20, new TextComponent("WorkerClient Settings"), (p_96338_) ->
         {
-            System.out.println("WorkerIA Settings");
+            this.minecraft.setScreen(new ModulesScreen(this));
         }));
         this.addRenderableWidget(new Button(this.width / 2 + 4, this.height / 4 + 72 + -16, 98, 20, new TextComponent("Website"), (p_96318_) ->
         {

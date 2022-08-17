@@ -74,8 +74,6 @@ public class OptionsScreen extends Screen
         {
             this.minecraft.setScreen(this.lastScreen);
         }));
-
-        //this.width / 2 - 155, this.height / 6 + 120 - 6
     }
 
     public static CycleButton<Difficulty> createDifficultyButton(int p_193847_, int p_193848_, int p_193849_, String p_193850_, Minecraft p_193851_)

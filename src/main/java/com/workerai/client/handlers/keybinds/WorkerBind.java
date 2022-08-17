@@ -2,6 +2,7 @@ package com.workerai.client.handlers.keybinds;
 
 import com.mojang.logging.LogUtils;
 import com.workerai.client.Handlers;
+import com.workerai.client.WorkerClient;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import org.apache.commons.lang3.text.WordUtils;
@@ -81,7 +82,7 @@ public abstract class WorkerBind {
 
         if (currentKeyCode == 0 || conflictExempt) return;
 
-        List<WorkerBind> otherBinds = Minecraft.getInstance().getHandlersManager().getKeyboardHandler().getWorkerKeybinds();
+        List<WorkerBind> otherBinds = WorkerClient.getInstance().getHandlersManager().getKeyboardHandler().getWorkerKeybinds();
         otherBinds.remove(this);
 
         // Check for conflicts with Minecraft binds.

@@ -3,7 +3,6 @@ package com.workerai.client.handlers.hypixel;
 import com.workerai.client.utils.ScoreboardUtils;
 import com.workerai.event.EventBus;
 import com.workerai.event.network.server.ReconnectEvent;
-import com.workerai.utils.ChatColor;
 import net.minecraft.world.scores.Objective;
 import net.minecraft.world.scores.Scoreboard;
 
@@ -23,20 +22,19 @@ public class ScoreboardDetector {
     private static String currentServer;
 
     public void refreshCurrentServer(boolean afk) {
-
         Collection<Objective> scoreObjective = scoreboard.getObjectives();
         if (scoreObjective.size() > 0) {
             Objective objective = scoreObjective.iterator().next();
             if (objective != null) {
                 String line = scoreboard.getObjective(objective.getName()).getDisplayName().getString();
                 if (line != null) {
-                    currentServer = ChatColor.stripColor(line);
+                    currentServer = line;
                 } else {
                     return;
                 }
             }
         }
-        System.out.println("REFRESHED " + currentServer);
+
         if (currentServer.contains("SKYBLOCK")) currentServer = "SKYBLOCK";
 
         if (afk) {

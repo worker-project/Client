@@ -1,7 +1,8 @@
 package com.workerai.client.handlers.keybinds;
 
-import com.mojang.blaze3d.platform.InputConstants;
+import com.workerai.client.WorkerClient;
 import com.workerai.client.handlers.hypixel.ServerDetector;
+import com.workerai.client.modules.AbstractModule;
 import com.workerai.event.interact.KeyPressedEvent;
 import com.workerai.event.utils.InvokeEvent;
 
@@ -13,14 +14,15 @@ public class KeyboardHandler {
 
     @InvokeEvent
     public void onKeyPressed(KeyPressedEvent e) {
-        /*for (IModule module : WorkerAI.getInstance().getHandlers().getWorkerScripts().getModules()) {*/
+        for (AbstractModule module : WorkerClient.getInstance().getHandlersManager().getWorkerScripts().getModules()) {
             if (ServerDetector.getInstance().isInHypixel()/* && module.hasModuleAccess() && module.getModuleConfig().getKeybind() == e.getKey()*/) {
-                if (e.getKey() == InputConstants.KEY_ESCAPE) {
-                    System.out.println("\"" + e.getKey() + "\"" + " PRESSED");
+                if (e.getKey() == module.getModuleConfig().getKeybind()) {
+                    module.setOtherModulesEnabled(false);
+                    module.getModuleConfig().setModuleEnabled(!module.getModuleConfig().isModuleEnabled(), true);
+                    module.setModuleConfig(module.getModuleConfig());
                 }
-                //module.getModuleConfig().setModuleEnabled(!module.getModuleConfig().isModuleEnabled(), true);
             }
-       // }
+        }
     }
 
     public List<WorkerBind> getWorkerKeybinds() {

@@ -1,6 +1,8 @@
 package com.workerai.client.handlers.hypixel;
 
 import com.mojang.logging.LogUtils;
+import com.workerai.client.WorkerClient;
+import com.workerai.client.modules.AbstractModule;
 import com.workerai.event.EventBus;
 import com.workerai.event.network.chat.ServerChatEvent;
 import com.workerai.event.network.server.JoinHypixelEvent;
@@ -9,7 +11,6 @@ import com.workerai.event.network.server.ServerJoinEvent;
 import com.workerai.event.network.server.ServerLeaveEvent;
 import com.workerai.event.utils.InvokeEvent;
 import com.workerai.event.world.EntityJoinWorldEvent;
-import com.workerai.utils.ChatColor;
 import com.workerai.utils.Multithreading;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
@@ -48,7 +49,7 @@ public class ServerDetector {
             if (detectedHypixel) {
                 EventBus.INSTANCE.post(new JoinHypixelEvent(JoinHypixelEvent.ServerVerificationMethod.IP));
             }
-            /*for (IModule module : WorkerAI.getInstance().getHandlers().getWorkerScripts().getModules()) {
+            /*for (AbstractModule module : WorkerAI.getInstance().getHandlers().getWorkerScripts().getModules()) {
                 try {
                     module.getModuleConfig().setModuleEnabled(false, false);
                     module.setModuleConfig(module.getModuleConfig());
@@ -104,20 +105,34 @@ public class ServerDetector {
     @InvokeEvent
     public void onServerChatEvent(ServerChatEvent event) {
         if (isInHypixel()) {
-            if (ChatColor.stripColor(event.getChat().getContents()).equals("You are AFK. Move around to return from AFK.")) {
+            if (event.getChat().getContents().contains("You are AFK. Move around to return from AFK.")) {
                 scoreboardDetector.refreshCurrentServer(true);
+            }
+
+            else if(event.getChat().getContents().contains("You have already found that Fairy Soul!")) {
+                System.out.println("Display fairy soul to obtained");
+            }
+
+            else if(event.getChat().getContents().contains("SOUL! You found a Fairy Soul!")) {
+                System.out.println("Display fairy soul to obtained");
             }
         }
     }
 
     @InvokeEvent
     public void onHypixelJoin(JoinHypixelEvent e) {
-        LogUtils.getLogger().info("\u001B[35mJoining Hypixel...\u001B[0m");
+        LogUtils.getLogger().info("\u001B[33mJoining Hypixel...\u001B[0m");
+
+        for(AbstractModule module : WorkerClient.getInstance().getHandlersManager().getWorkerScripts().getModules()) {
+            System.out.println("module.getModuleConfig().getKeybind() = " + module.getModuleConfig().getKeybind());
+            module.getModuleConfig().setModuleEnabled(false, false);
+            module.setModuleConfig(module.getModuleConfig());
+        }
     }
 
     @InvokeEvent
     public void onHypixelLeave(LeaveHypixelEvent e) {
-        LogUtils.getLogger().info("\u001B[35mLeaving Hypixel...\u001B[0m");
+        LogUtils.getLogger().info("\u001B[33mLeaving Hypixel...\u001B[0m");
     }
 
 

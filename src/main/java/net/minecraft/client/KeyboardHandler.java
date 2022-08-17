@@ -4,17 +4,9 @@ import com.google.common.base.MoreObjects;
 import com.mojang.blaze3d.Blaze3D;
 import com.mojang.blaze3d.platform.ClipboardManager;
 import com.mojang.blaze3d.platform.InputConstants;
-import java.text.MessageFormat;
-import java.util.Locale;
-import javax.annotation.Nullable;
-
 import com.workerai.event.EventBus;
 import com.workerai.event.interact.KeyPressedEvent;
-import net.minecraft.ChatFormatting;
-import net.minecraft.CrashReport;
-import net.minecraft.CrashReportCategory;
-import net.minecraft.ReportedException;
-import net.minecraft.Util;
+import net.minecraft.*;
 import net.minecraft.client.gui.chat.NarratorChatListener;
 import net.minecraft.client.gui.components.ChatComponent;
 import net.minecraft.client.gui.components.EditBox;
@@ -48,8 +40,11 @@ import net.optifine.reflect.Reflector;
 import net.optifine.shaders.Shaders;
 import net.optifine.shaders.gui.GuiShaderOptions;
 
-public class KeyboardHandler
-{
+import javax.annotation.Nullable;
+import java.text.MessageFormat;
+import java.util.Locale;
+
+public class KeyboardHandler {
     public static final int DEBUG_CRASH_TIME = 10000;
     private final Minecraft minecraft;
     private boolean sendRepeatsToGui;
@@ -60,15 +55,12 @@ public class KeyboardHandler
     private boolean handledDebugKey;
     private static boolean chunkDebugKeys = Boolean.getBoolean("chunk.debug.keys");
 
-    public KeyboardHandler(Minecraft pMinecraft)
-    {
+    public KeyboardHandler(Minecraft pMinecraft) {
         this.minecraft = pMinecraft;
     }
 
-    private boolean handleChunkDebugKeys(int p_167814_)
-    {
-        switch (p_167814_)
-        {
+    private boolean handleChunkDebugKeys(int p_167814_) {
+        switch (p_167814_) {
             case 69:
                 this.minecraft.chunkPath = !this.minecraft.chunkPath;
                 this.c("ChunkPath: {0}", this.minecraft.chunkPath ? "shown" : "hidden");
@@ -80,21 +72,15 @@ public class KeyboardHandler
                 return true;
 
             case 85:
-                if (Screen.hasShiftDown())
-                {
+                if (Screen.hasShiftDown()) {
                     this.minecraft.levelRenderer.killFrustum();
                     this.c("Killed frustum");
-                }
-                else if (Screen.hasAltDown())
-                {
-                    if (Config.isShadersShadows())
-                    {
+                } else if (Screen.hasAltDown()) {
+                    if (Config.isShadersShadows()) {
                         this.minecraft.levelRenderer.captureFrustumShadow();
                         this.c("Captured shadow frustum");
                     }
-                }
-                else
-                {
+                } else {
                     this.minecraft.levelRenderer.captureFrustum();
                     this.c("Captured frustum");
                 }
@@ -116,45 +102,33 @@ public class KeyboardHandler
         }
     }
 
-    private void debugComponent(ChatFormatting p_167825_, Component p_167826_)
-    {
-        this.minecraft.gui.getChat().addMessage((new TextComponent("")).append((new TranslatableComponent("debug.prefix")).a(new ChatFormatting[] {p_167825_, ChatFormatting.BOLD})).append(" ").append(p_167826_));
+    private void debugComponent(ChatFormatting p_167825_, Component p_167826_) {
+        this.minecraft.gui.getChat().addMessage((new TextComponent("")).append((new TranslatableComponent("debug.prefix")).a(new ChatFormatting[]{p_167825_, ChatFormatting.BOLD})).append(" ").append(p_167826_));
     }
 
-    private void debugFeedbackComponent(Component p_167823_)
-    {
+    private void debugFeedbackComponent(Component p_167823_) {
         this.debugComponent(ChatFormatting.YELLOW, p_167823_);
     }
 
-    private void a(String p_90914_, Object... p_90915_)
-    {
+    private void a(String p_90914_, Object... p_90915_) {
         this.debugFeedbackComponent(new TranslatableComponent(p_90914_, p_90915_));
     }
 
-    private void b(String p_90949_, Object... p_90950_)
-    {
+    private void b(String p_90949_, Object... p_90950_) {
         this.debugComponent(ChatFormatting.RED, new TranslatableComponent(p_90949_, p_90950_));
     }
 
-    private void c(String p_167838_, Object... p_167839_)
-    {
+    private void c(String p_167838_, Object... p_167839_) {
         this.debugFeedbackComponent(new TextComponent(MessageFormat.format(p_167838_, p_167839_)));
     }
 
-    private boolean handleDebugKeys(int pKey)
-    {
-        if (this.debugCrashKeyTime > 0L && this.debugCrashKeyTime < Util.getMillis() - 100L)
-        {
+    private boolean handleDebugKeys(int pKey) {
+        if (this.debugCrashKeyTime > 0L && this.debugCrashKeyTime < Util.getMillis() - 100L) {
             return true;
-        }
-        else if (chunkDebugKeys && this.handleChunkDebugKeys(pKey))
-        {
+        } else if (chunkDebugKeys && this.handleChunkDebugKeys(pKey)) {
             return true;
-        }
-        else
-        {
-            switch (pKey)
-            {
+        } else {
+            switch (pKey) {
                 case 65:
                     this.minecraft.levelRenderer.allChanged();
                     this.a("debug.reload_chunks.message");
@@ -167,16 +141,12 @@ public class KeyboardHandler
                     return true;
 
                 case 67:
-                    if (this.minecraft.player.isReducedDebugInfo())
-                    {
+                    if (this.minecraft.player.isReducedDebugInfo()) {
                         return false;
-                    }
-                    else
-                    {
+                    } else {
                         ClientPacketListener clientpacketlistener = this.minecraft.player.connection;
 
-                        if (clientpacketlistener == null)
-                        {
+                        if (clientpacketlistener == null) {
                             return false;
                         }
 
@@ -186,15 +156,14 @@ public class KeyboardHandler
                     }
 
                 case 68:
-                    if (this.minecraft.gui != null)
-                    {
+                    if (this.minecraft.gui != null) {
                         this.minecraft.gui.getChat().clearMessages(false);
                     }
 
                     return true;
 
                 case 70:
-                    Option.RENDER_DISTANCE.set(this.minecraft.options, Mth.clamp((double)(this.minecraft.options.renderDistance + (Screen.hasShiftDown() ? -1 : 1)), Option.RENDER_DISTANCE.getMinValue(), Option.RENDER_DISTANCE.getMaxValue()));
+                    Option.RENDER_DISTANCE.set(this.minecraft.options, Mth.clamp((double) (this.minecraft.options.renderDistance + (Screen.hasShiftDown() ? -1 : 1)), Option.RENDER_DISTANCE.getMinValue(), Option.RENDER_DISTANCE.getMaxValue()));
                     this.a("debug.cycle_renderdistance.message", this.minecraft.options.renderDistance);
                     return true;
 
@@ -210,41 +179,33 @@ public class KeyboardHandler
                     return true;
 
                 case 73:
-                    if (!this.minecraft.player.isReducedDebugInfo())
-                    {
+                    if (!this.minecraft.player.isReducedDebugInfo()) {
                         this.copyRecreateCommand(this.minecraft.player.hasPermissions(2), !Screen.hasShiftDown());
                     }
 
                     return true;
 
                 case 76:
-                    if (this.minecraft.debugClientMetricsStart(this::debugFeedbackComponent))
-                    {
+                    if (this.minecraft.debugClientMetricsStart(this::debugFeedbackComponent)) {
                         this.a("debug.profiling.start", 10);
                     }
 
                     return true;
 
                 case 78:
-                    if (!this.minecraft.player.hasPermissions(2))
-                    {
+                    if (!this.minecraft.player.hasPermissions(2)) {
                         this.a("debug.creative_spectator.error");
-                    }
-                    else if (!this.minecraft.player.isSpectator())
-                    {
+                    } else if (!this.minecraft.player.isSpectator()) {
                         this.minecraft.player.chat("/gamemode spectator");
-                    }
-                    else
-                    {
+                    } else {
                         this.minecraft.player.chat("/gamemode " + MoreObjects.firstNonNull(this.minecraft.gameMode.getPreviousPlayerMode(), GameType.CREATIVE).getName());
                     }
 
                     return true;
 
                 case 79:
-                    if (Config.isShaders())
-                    {
-                        GuiShaderOptions guishaderoptions = new GuiShaderOptions((Screen)null, Config.getGameSettings());
+                    if (Config.isShaders()) {
+                        GuiShaderOptions guishaderoptions = new GuiShaderOptions((Screen) null, Config.getGameSettings());
                         Config.getMinecraft().setScreen(guishaderoptions);
                     }
 
@@ -277,8 +238,7 @@ public class KeyboardHandler
                     return true;
 
                 case 82:
-                    if (Config.isShaders())
-                    {
+                    if (Config.isShaders()) {
                         Shaders.uninit();
                         Shaders.loadShaderPack();
                     }
@@ -298,12 +258,9 @@ public class KeyboardHandler
                     return true;
 
                 case 293:
-                    if (!this.minecraft.player.hasPermissions(2))
-                    {
+                    if (!this.minecraft.player.hasPermissions(2)) {
                         this.a("debug.gamemodes.error");
-                    }
-                    else
-                    {
+                    } else {
                         this.minecraft.setScreen(new GameModeSwitcherScreen());
                     }
 
@@ -315,121 +272,94 @@ public class KeyboardHandler
         }
     }
 
-    private void copyRecreateCommand(boolean pPrivileged, boolean pAskServer)
-    {
+    private void copyRecreateCommand(boolean pPrivileged, boolean pAskServer) {
         HitResult hitresult = this.minecraft.hitResult;
 
-        if (hitresult != null)
-        {
-            switch (hitresult.getType())
-            {
+        if (hitresult != null) {
+            switch (hitresult.getType()) {
                 case BLOCK:
-                    BlockPos blockpos = ((BlockHitResult)hitresult).getBlockPos();
+                    BlockPos blockpos = ((BlockHitResult) hitresult).getBlockPos();
                     BlockState blockstate = this.minecraft.player.level.getBlockState(blockpos);
 
-                    if (pPrivileged)
-                    {
-                        if (pAskServer)
-                        {
+                    if (pPrivileged) {
+                        if (pAskServer) {
                             this.minecraft.player.connection.getDebugQueryHandler().queryBlockEntityTag(blockpos, (p_90944_3_) ->
                             {
                                 this.copyCreateBlockCommand(blockstate, blockpos, p_90944_3_);
                                 this.a("debug.inspect.server.block");
                             });
-                        }
-                        else
-                        {
+                        } else {
                             BlockEntity blockentity = this.minecraft.player.level.getBlockEntity(blockpos);
                             CompoundTag compoundtag1 = blockentity != null ? blockentity.saveWithoutMetadata() : null;
                             this.copyCreateBlockCommand(blockstate, blockpos, compoundtag1);
                             this.a("debug.inspect.client.block");
                         }
-                    }
-                    else
-                    {
-                        this.copyCreateBlockCommand(blockstate, blockpos, (CompoundTag)null);
+                    } else {
+                        this.copyCreateBlockCommand(blockstate, blockpos, (CompoundTag) null);
                         this.a("debug.inspect.client.block");
                     }
 
                     break;
 
                 case ENTITY:
-                    Entity entity = ((EntityHitResult)hitresult).getEntity();
+                    Entity entity = ((EntityHitResult) hitresult).getEntity();
                     ResourceLocation resourcelocation = Registry.ENTITY_TYPE.getKey(entity.getType());
 
-                    if (pPrivileged)
-                    {
-                        if (pAskServer)
-                        {
+                    if (pPrivileged) {
+                        if (pAskServer) {
                             this.minecraft.player.connection.getDebugQueryHandler().queryEntityTag(entity.getId(), (p_90918_3_) ->
                             {
                                 this.copyCreateEntityCommand(resourcelocation, entity.position(), p_90918_3_);
                                 this.a("debug.inspect.server.entity");
                             });
-                        }
-                        else
-                        {
+                        } else {
                             CompoundTag compoundtag = entity.saveWithoutId(new CompoundTag());
                             this.copyCreateEntityCommand(resourcelocation, entity.position(), compoundtag);
                             this.a("debug.inspect.client.entity");
                         }
-                    }
-                    else
-                    {
-                        this.copyCreateEntityCommand(resourcelocation, entity.position(), (CompoundTag)null);
+                    } else {
+                        this.copyCreateEntityCommand(resourcelocation, entity.position(), (CompoundTag) null);
                         this.a("debug.inspect.client.entity");
                     }
             }
         }
     }
 
-    private void copyCreateBlockCommand(BlockState pState, BlockPos pPos, @Nullable CompoundTag pCompound)
-    {
+    private void copyCreateBlockCommand(BlockState pState, BlockPos pPos, @Nullable CompoundTag pCompound) {
         StringBuilder stringbuilder = new StringBuilder(BlockStateParser.serialize(pState));
 
-        if (pCompound != null)
-        {
-            stringbuilder.append((Object)pCompound);
+        if (pCompound != null) {
+            stringbuilder.append((Object) pCompound);
         }
 
         String s = String.format(Locale.ROOT, "/setblock %d %d %d %s", pPos.getX(), pPos.getY(), pPos.getZ(), stringbuilder);
         this.setClipboard(s);
     }
 
-    private void copyCreateEntityCommand(ResourceLocation pEntityId, Vec3 pPos, @Nullable CompoundTag pCompound)
-    {
+    private void copyCreateEntityCommand(ResourceLocation pEntityId, Vec3 pPos, @Nullable CompoundTag pCompound) {
         String s;
 
-        if (pCompound != null)
-        {
+        if (pCompound != null) {
             pCompound.remove("UUID");
             pCompound.remove("Pos");
             pCompound.remove("Dimension");
             String s1 = NbtUtils.toPrettyComponent(pCompound).getString();
             s = String.format(Locale.ROOT, "/summon %s %.2f %.2f %.2f %s", pEntityId.toString(), pPos.x, pPos.y, pPos.z, s1);
-        }
-        else
-        {
+        } else {
             s = String.format(Locale.ROOT, "/summon %s %.2f %.2f %.2f", pEntityId.toString(), pPos.x, pPos.y, pPos.z);
         }
 
         this.setClipboard(s);
     }
 
-    public void keyPress(long pWindowPointer, int p_90895_, int pKey, int pScanCode, int pAction)
-    {
-        if (pWindowPointer == this.minecraft.getWindow().getWindow())
-        {
+    public void keyPress(long pWindowPointer, int p_90895_, int pKey, int pScanCode, int pAction) {
+        if (pWindowPointer == this.minecraft.getWindow().getWindow()) {
 
-            if (this.debugCrashKeyTime > 0L)
-            {
-                if (!InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 67) || !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 292))
-                {
+            if (this.debugCrashKeyTime > 0L) {
+                if (!InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 67) || !InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 292)) {
                     this.debugCrashKeyTime = -1L;
                 }
-            }
-            else if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 67) && InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 292))
-            {
+            } else if (InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 67) && InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 292)) {
                 this.handledDebugKey = true;
                 this.debugCrashKeyTime = Util.getMillis();
                 this.debugCrashKeyReportedTime = Util.getMillis();
@@ -438,22 +368,17 @@ public class KeyboardHandler
 
             Screen screen = this.minecraft.screen;
 
-            if (!(this.minecraft.screen instanceof KeyBindsScreen) || ((KeyBindsScreen)screen).lastKeySelection <= Util.getMillis() - 20L)
-            {
-                if (pScanCode == 1)
-                {
-                    if (this.minecraft.options.keyFullscreen.matches(p_90895_, pKey))
-                    {
+            if (!(this.minecraft.screen instanceof KeyBindsScreen) || ((KeyBindsScreen) screen).lastKeySelection <= Util.getMillis() - 20L) {
+                if (pScanCode == 1) {
+                    if (this.minecraft.options.keyFullscreen.matches(p_90895_, pKey)) {
                         this.minecraft.getWindow().toggleFullScreen();
                         this.minecraft.options.fullscreen = this.minecraft.getWindow().isFullscreen();
                         this.minecraft.options.save();
                         return;
                     }
 
-                    if (this.minecraft.options.keyScreenshot.matches(p_90895_, pKey))
-                    {
-                        if (Screen.hasControlDown())
-                        {
+                    if (this.minecraft.options.keyScreenshot.matches(p_90895_, pKey)) {
+                        if (Screen.hasControlDown()) {
                         }
 
                         Screenshot.grab(this.minecraft.gameDirectory, this.minecraft.getMainRenderTarget(), (p_90916_1_) ->
@@ -464,71 +389,54 @@ public class KeyboardHandler
                         });
                         return;
                     }
-                }
-                else if (pScanCode == 0 && this.minecraft.screen instanceof KeyBindsScreen)
-                {
-                    ((KeyBindsScreen)this.minecraft.screen).selectedKey = null;
+                } else if (pScanCode == 0 && this.minecraft.screen instanceof KeyBindsScreen) {
+                    ((KeyBindsScreen) this.minecraft.screen).selectedKey = null;
                 }
             }
 
-            if (NarratorChatListener.INSTANCE.isActive())
-            {
-                boolean flag = screen == null || !(screen.getFocused() instanceof EditBox) || !((EditBox)screen.getFocused()).canConsumeInput();
+            if (NarratorChatListener.INSTANCE.isActive()) {
+                boolean flag = screen == null || !(screen.getFocused() instanceof EditBox) || !((EditBox) screen.getFocused()).canConsumeInput();
 
-                if (pScanCode != 0 && p_90895_ == 66 && Screen.hasControlDown() && flag)
-                {
+                if (pScanCode != 0 && p_90895_ == 66 && Screen.hasControlDown() && flag) {
                     boolean flag1 = this.minecraft.options.narratorStatus == NarratorStatus.OFF;
                     this.minecraft.options.narratorStatus = NarratorStatus.byId(this.minecraft.options.narratorStatus.getId() + 1);
                     NarratorChatListener.INSTANCE.updateNarratorStatus(this.minecraft.options.narratorStatus);
 
-                    if (screen instanceof SimpleOptionsSubScreen)
-                    {
-                        ((SimpleOptionsSubScreen)screen).updateNarratorButton();
+                    if (screen instanceof SimpleOptionsSubScreen) {
+                        ((SimpleOptionsSubScreen) screen).updateNarratorButton();
                     }
 
-                    if (flag1 && screen != null)
-                    {
+                    if (flag1 && screen != null) {
                         screen.narrationEnabled();
                     }
                 }
             }
 
-            if (screen != null)
-            {
-                EventBus.INSTANCE.post(new KeyPressedEvent(p_90895_, false));
-
-                boolean[] aboolean = new boolean[] {false};
+            if (screen != null) {
+                boolean[] aboolean = new boolean[]{false};
                 Screen.wrapScreenError(() ->
                 {
-                    if (pScanCode != 1 && (pScanCode != 2 || !this.sendRepeatsToGui))
-                    {
-                        if (pScanCode == 0)
-                        {
-                            if (Reflector.ForgeHooksClient_onScreenKeyReleasedPre.exists())
-                            {
+                    if (pScanCode != 1 && (pScanCode != 2 || !this.sendRepeatsToGui)) {
+                        if (pScanCode == 0) {
+                            if (Reflector.ForgeHooksClient_onScreenKeyReleasedPre.exists()) {
                                 aboolean[0] = Reflector.callBoolean(Reflector.ForgeHooksClient_onScreenKeyReleasedPre, screen, p_90895_, pKey, pAction);
 
-                                if (aboolean[0])
-                                {
+                                if (aboolean[0]) {
                                     return;
                                 }
                             }
 
                             aboolean[0] = screen.keyReleased(p_90895_, pKey, pAction);
 
-                            if (Reflector.ForgeHooksClient_onScreenKeyReleasedPost.exists() && !aboolean[0])
-                            {
+                            if (Reflector.ForgeHooksClient_onScreenKeyReleasedPost.exists() && !aboolean[0]) {
                                 aboolean[0] = Reflector.callBoolean(Reflector.ForgeHooksClient_onScreenKeyReleasedPost, screen, p_90895_, pKey, pAction);
                             }
                         }
-                    }
-                    else {
-                        if (Reflector.ForgeHooksClient_onScreenKeyPressedPre.exists())
-                        {
+                    } else {
+                        if (Reflector.ForgeHooksClient_onScreenKeyPressedPre.exists()) {
                             aboolean[0] = Reflector.callBoolean(Reflector.ForgeHooksClient_onScreenKeyPressedPre, screen, p_90895_, pKey, pAction);
 
-                            if (aboolean[0])
-                            {
+                            if (aboolean[0]) {
                                 return;
                             }
                         }
@@ -536,67 +444,53 @@ public class KeyboardHandler
                         screen.afterKeyboardAction();
                         aboolean[0] = screen.keyPressed(p_90895_, pKey, pAction);
 
-                        if (Reflector.ForgeHooksClient_onScreenKeyPressedPost.exists() && !aboolean[0])
-                        {
+                        if (Reflector.ForgeHooksClient_onScreenKeyPressedPost.exists() && !aboolean[0]) {
                             aboolean[0] = Reflector.callBoolean(Reflector.ForgeHooksClient_onScreenKeyPressedPost, screen, p_90895_, pKey, pAction);
                         }
                     }
                 }, "keyPressed event handler", screen.getClass().getCanonicalName());
 
-                if (aboolean[0])
-                {
+                if (aboolean[0]) {
                     return;
                 }
             }
 
-            if (this.minecraft.screen == null || this.minecraft.screen.passEvents)
-            {
+            if (this.minecraft.screen == null || this.minecraft.screen.passEvents) {
                 InputConstants.Key inputconstants$key = InputConstants.getKey(p_90895_, pKey);
 
-                if (pScanCode == 0)
-                {
+                if (pScanCode == 0) {
                     KeyMapping.set(inputconstants$key, false);
 
-                    if (p_90895_ == 292)
-                    {
-                        if (this.handledDebugKey)
-                        {
+                    if (p_90895_ == 292) {
+                        if (this.handledDebugKey) {
                             this.handledDebugKey = false;
-                        }
-                        else
-                        {
+                        } else {
                             this.minecraft.options.renderDebug = !this.minecraft.options.renderDebug;
                             this.minecraft.options.renderDebugCharts = this.minecraft.options.renderDebug && Screen.hasShiftDown();
                             this.minecraft.options.renderFpsChart = this.minecraft.options.renderDebug && Screen.hasAltDown();
 
-                            if (this.minecraft.options.renderDebug)
-                            {
-                                if (this.minecraft.options.ofLagometer)
-                                {
+                            if (this.minecraft.options.renderDebug) {
+                                if (this.minecraft.options.ofLagometer) {
                                     this.minecraft.options.renderFpsChart = true;
                                 }
 
-                                if (this.minecraft.options.ofProfiler)
-                                {
+                                if (this.minecraft.options.ofProfiler) {
                                     this.minecraft.options.renderDebugCharts = true;
                                 }
                             }
                         }
                     }
-                }
-                else
-                {
-                    if (p_90895_ == 293 && this.minecraft.gameRenderer != null)
-                    {
+                } else {
+                    EventBus.INSTANCE.post(new KeyPressedEvent(p_90895_, false));
+
+                    if (p_90895_ == 293 && this.minecraft.gameRenderer != null) {
                         this.minecraft.gameRenderer.togglePostEffect();
                     }
 
                     boolean flag3 = false;
 
-                    if (this.minecraft.screen == null)
-                    {
-                        if (p_90895_ == 256)
-                        {
+                    if (this.minecraft.screen == null) {
+                        if (p_90895_ == 256) {
                             boolean flag2 = InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 292);
                             this.minecraft.pauseGame(flag2);
                         }
@@ -604,24 +498,19 @@ public class KeyboardHandler
                         flag3 = InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), 292) && this.handleDebugKeys(p_90895_);
                         this.handledDebugKey |= flag3;
 
-                        if (p_90895_ == 290)
-                        {
+                        if (p_90895_ == 290) {
                             this.minecraft.options.hideGui = !this.minecraft.options.hideGui;
                         }
                     }
 
-                    if (flag3)
-                    {
+                    if (flag3) {
                         KeyMapping.set(inputconstants$key, false);
-                    }
-                    else
-                    {
+                    } else {
                         KeyMapping.set(inputconstants$key, true);
                         KeyMapping.click(inputconstants$key);
                     }
 
-                    if (this.minecraft.options.renderDebugCharts && p_90895_ >= 48 && p_90895_ <= 57)
-                    {
+                    if (this.minecraft.options.renderDebugCharts && p_90895_ >= 48 && p_90895_ <= 57) {
                         this.minecraft.debugFpsMeterKeyPress(p_90895_ - 48);
                     }
                 }
@@ -631,41 +520,30 @@ public class KeyboardHandler
         }
     }
 
-    private void charTyped(long pWindowPointer, int p_90891_, int pCodePoint)
-    {
-        if (pWindowPointer == this.minecraft.getWindow().getWindow())
-        {
+    private void charTyped(long pWindowPointer, int p_90891_, int pCodePoint) {
+        if (pWindowPointer == this.minecraft.getWindow().getWindow()) {
             Screen screen = this.minecraft.screen;
 
-            if (screen != null && this.minecraft.getOverlay() == null)
-            {
-                if (Character.charCount(p_90891_) == 1)
-                {
+            if (screen != null && this.minecraft.getOverlay() == null) {
+                if (Character.charCount(p_90891_) == 1) {
                     Screen.wrapScreenError(() ->
                     {
-                        if (!Reflector.ForgeHooksClient_onScreenCharTypedPre.exists() || !Reflector.callBoolean(Reflector.ForgeHooksClient_onScreenCharTypedPre, screen, (char)p_90891_, pCodePoint))
-                        {
-                            boolean flag = screen.charTyped((char)p_90891_, pCodePoint);
+                        if (!Reflector.ForgeHooksClient_onScreenCharTypedPre.exists() || !Reflector.callBoolean(Reflector.ForgeHooksClient_onScreenCharTypedPre, screen, (char) p_90891_, pCodePoint)) {
+                            boolean flag = screen.charTyped((char) p_90891_, pCodePoint);
 
-                            if (Reflector.ForgeHooksClient_onScreenCharTypedPost.exists() && !flag)
-                            {
-                                Reflector.callBoolean(Reflector.ForgeHooksClient_onScreenCharTypedPost, screen, (char)p_90891_, pCodePoint);
+                            if (Reflector.ForgeHooksClient_onScreenCharTypedPost.exists() && !flag) {
+                                Reflector.callBoolean(Reflector.ForgeHooksClient_onScreenCharTypedPost, screen, (char) p_90891_, pCodePoint);
                             }
                         }
                     }, "charTyped event handler", screen.getClass().getCanonicalName());
-                }
-                else
-                {
-                    for (char c0 : Character.toChars(p_90891_))
-                    {
+                } else {
+                    for (char c0 : Character.toChars(p_90891_)) {
                         Screen.wrapScreenError(() ->
                         {
-                            if (!Reflector.ForgeHooksClient_onScreenCharTypedPre.exists() || !Reflector.callBoolean(Reflector.ForgeHooksClient_onScreenCharTypedPre, screen, c0, pCodePoint))
-                            {
+                            if (!Reflector.ForgeHooksClient_onScreenCharTypedPre.exists() || !Reflector.callBoolean(Reflector.ForgeHooksClient_onScreenCharTypedPre, screen, c0, pCodePoint)) {
                                 boolean flag = screen.charTyped(c0, pCodePoint);
 
-                                if (Reflector.ForgeHooksClient_onScreenCharTypedPost.exists() && !flag)
-                                {
+                                if (Reflector.ForgeHooksClient_onScreenCharTypedPost.exists() && !flag) {
                                     Reflector.callBoolean(Reflector.ForgeHooksClient_onScreenCharTypedPost, screen, c0, pCodePoint);
                                 }
                             }
@@ -676,13 +554,11 @@ public class KeyboardHandler
         }
     }
 
-    public void setSendRepeatsToGui(boolean pRepeatEvents)
-    {
+    public void setSendRepeatsToGui(boolean pRepeatEvents) {
         this.sendRepeatsToGui = pRepeatEvents;
     }
 
-    public void setup(long pWindow)
-    {
+    public void setup(long pWindow) {
         InputConstants.setupKeyboardCallbacks(pWindow, (p_90938_1_, p_90938_3_, p_90938_4_, p_90938_5_, p_90938_6_) ->
         {
             this.minecraft.execute(() -> {
@@ -696,37 +572,29 @@ public class KeyboardHandler
         });
     }
 
-    public String getClipboard()
-    {
+    public String getClipboard() {
         return this.clipboardManager.getClipboard(this.minecraft.getWindow().getWindow(), (p_90877_1_, p_90877_2_) ->
         {
-            if (p_90877_1_ != 65545)
-            {
+            if (p_90877_1_ != 65545) {
                 this.minecraft.getWindow().defaultErrorCallback(p_90877_1_, p_90877_2_);
             }
         });
     }
 
-    public void setClipboard(String pString)
-    {
-        if (!pString.isEmpty())
-        {
+    public void setClipboard(String pString) {
+        if (!pString.isEmpty()) {
             this.clipboardManager.setClipboard(this.minecraft.getWindow().getWindow(), pString);
         }
     }
 
-    public void tick()
-    {
-        if (this.debugCrashKeyTime > 0L)
-        {
+    public void tick() {
+        if (this.debugCrashKeyTime > 0L) {
             long i = Util.getMillis();
             long j = 10000L - (i - this.debugCrashKeyTime);
             long k = i - this.debugCrashKeyReportedTime;
 
-            if (j < 0L)
-            {
-                if (Screen.hasControlDown())
-                {
+            if (j < 0L) {
+                if (Screen.hasControlDown()) {
                     Blaze3D.youJustLostTheGame();
                 }
 
@@ -737,15 +605,11 @@ public class KeyboardHandler
                 throw new ReportedException(crashreport);
             }
 
-            if (k >= 1000L)
-            {
-                if (this.debugCrashKeyReportedCount == 0L)
-                {
+            if (k >= 1000L) {
+                if (this.debugCrashKeyReportedCount == 0L) {
                     this.a("debug.crash.message");
-                }
-                else
-                {
-                    this.b("debug.crash.warning", Mth.ceil((float)j / 1000.0F));
+                } else {
+                    this.b("debug.crash.warning", Mth.ceil((float) j / 1000.0F));
                 }
 
                 this.debugCrashKeyReportedTime = i;

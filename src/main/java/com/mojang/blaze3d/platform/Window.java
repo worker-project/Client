@@ -32,6 +32,8 @@ import org.lwjgl.system.MemoryUtil;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
 import org.slf4j.Logger;
 
+import static org.lwjgl.glfw.GLFW.GLFW_SAMPLES;
+
 public final class Window implements AutoCloseable
 {
     private static final Logger LOGGER = LogUtils.getLogger();
@@ -100,6 +102,7 @@ public final class Window implements AutoCloseable
         GLFW.glfwWindowHint(139267, 2);
         GLFW.glfwWindowHint(139272, 204801);
         GLFW.glfwWindowHint(139270, 1);
+        GLFW.glfwWindowHint(GLFW_SAMPLES, 5);
         long i = 0L;
 
         if (Reflector.EarlyProgressVisualization_handOffWindow.exists())

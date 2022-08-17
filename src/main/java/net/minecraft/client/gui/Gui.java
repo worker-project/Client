@@ -475,6 +475,7 @@ public class Gui extends GuiComponent
                 RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.ONE_MINUS_DST_COLOR, GlStateManager.DestFactor.ONE_MINUS_SRC_COLOR, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
                 int i = 15;
                 this.blit(pPoseStack, (this.screenWidth - 15) / 2, (this.screenHeight - 15) / 2, 0, 0, 15, 15);
+                this.blit(pPoseStack, (this.screenWidth - 15) / 2, (this.screenHeight - 15) / 2, 0, 0, 15, 15);
 
                 if (this.minecraft.options.attackIndicator == AttackIndicatorStatus.CROSSHAIR)
                 {
