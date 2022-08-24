@@ -8,12 +8,12 @@ import java.util.List;
 public class ModulesHandler {
     private final List<AbstractModule> AbstractModules = new ArrayList<>();
 
-    public void add(AbstractModule script) {
-        AbstractModules.add(script);
+    public void add(AbstractModule module) {
+        AbstractModules.add(module);
     }
 
-    public void remove(AbstractModule script) {
-        AbstractModules.remove(script);
+    public void remove(AbstractModule module) {
+        AbstractModules.remove(module);
     }
 
     public List<AbstractModule> getModules() {

@@ -5,7 +5,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.logging.LogUtils;
 import com.mojang.math.Vector3f;
-import com.workerai.utils.ClientInfos;
+import com.workerai.utils.ClientUtils;
 import net.minecraft.Util;
 import net.minecraft.client.gui.components.*;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -218,8 +218,8 @@ public class TitleScreen extends Screen {
                     Reflector.call(Reflector.BrandingControl_forEachAboveCopyrightLine, biconsumer1);
                 }
             } else {
-                drawString(pPoseStack, this.font, ClientInfos.NAME + " " + ClientInfos.VERSION, 2, this.height - 10, 16777215 | l);
-                drawString(pPoseStack, this.font, ClientInfos.COPYRIGHT, this.width - this.font.width(ClientInfos.COPYRIGHT) - 2, this.height - 10, 16777215 | l);
+                drawString(pPoseStack, this.font, ClientUtils.NAME + " " + ClientUtils.VERSION, 2, this.height - 10, 16777215 | l);
+                drawString(pPoseStack, this.font, ClientUtils.COPYRIGHT, this.width - this.font.width(ClientUtils.COPYRIGHT) - 2, this.height - 10, 16777215 | l);
             }
 
             for (GuiEventListener guieventlistener : this.children()) {

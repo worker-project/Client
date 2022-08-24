@@ -7,7 +7,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 
-import static com.workerai.client.modules.utils.ModuleScreenManager.*;
+import static com.workerai.client.screens.ModuleScreenManager.*;
 
 public class GuiButtonSlider extends Button {
     public IntegerOption integerOption;

@@ -1,17 +1,14 @@
 package com.workerai.client.handlers.hypixel;
 
 import com.mojang.logging.LogUtils;
-import com.workerai.client.WorkerClient;
-import com.workerai.client.modules.AbstractModule;
 import com.workerai.event.EventBus;
-import com.workerai.event.network.chat.ServerChatEvent;
 import com.workerai.event.network.server.JoinHypixelEvent;
 import com.workerai.event.network.server.LeaveHypixelEvent;
 import com.workerai.event.network.server.ServerJoinEvent;
 import com.workerai.event.network.server.ServerLeaveEvent;
 import com.workerai.event.utils.InvokeEvent;
 import com.workerai.event.world.EntityJoinWorldEvent;
-import com.workerai.utils.Multithreading;
+import com.workerai.utils.MultithreadingUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.scores.Scoreboard;
@@ -19,22 +16,22 @@ import net.minecraft.world.scores.Scoreboard;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import static com.workerai.utils.ClientInfos.HYPIXEL_PATTERN;
+import static com.workerai.utils.ClientUtils.HYPIXEL_PATTERN;
 
 public class ServerDetector {
-    private static ServerDetector instance;
+    private static ServerDetector INSTANCE;
     private boolean detectedHypixel;
     private final ScoreboardDetector scoreboardDetector = new ScoreboardDetector();
     private Timer joinTimer;
 
     public ServerDetector() {
-        instance = this;
+        INSTANCE = this;
     }
 
     @InvokeEvent
     public void onServerJoin(ServerJoinEvent event) {
         detectedHypixel = getMatcherIP(event.getServer());
-        Multithreading.runAsync(() -> {
+        MultithreadingUtils.runAsync(() -> {
             int tries = 0;
             while (Minecraft.getInstance().player == null) {
                 tries++;
@@ -49,14 +46,6 @@ public class ServerDetector {
             if (detectedHypixel) {
                 EventBus.INSTANCE.post(new JoinHypixelEvent(JoinHypixelEvent.ServerVerificationMethod.IP));
             }
-            /*for (AbstractModule module : WorkerAI.getInstance().getHandlers().getWorkerScripts().getModules()) {
-                try {
-                    module.getModuleConfig().setModuleEnabled(false, false);
-                    module.setModuleConfig(module.getModuleConfig());
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }*/
         });
     }
 
@@ -73,7 +62,7 @@ public class ServerDetector {
                     new TimerTask() {
                         @Override
                         public void run() {
-                            Multithreading.runAsync(() -> {
+                            MultithreadingUtils.runAsync(() -> {
                                 Scoreboard scoreboard = player.getScoreboard();
                                 int tries = 0;
                                 while (scoreboard.getObjectives().size() <= 0 && scoreboard.getPlayerScores(player.getDisplayName().getContents()).size() <= 0) {
@@ -103,31 +92,8 @@ public class ServerDetector {
     }
 
     @InvokeEvent
-    public void onServerChatEvent(ServerChatEvent event) {
-        if (isInHypixel()) {
-            if (event.getChat().getContents().contains("You are AFK. Move around to return from AFK.")) {
-                scoreboardDetector.refreshCurrentServer(true);
-            }
-
-            else if(event.getChat().getContents().contains("You have already found that Fairy Soul!")) {
-                System.out.println("Display fairy soul to obtained");
-            }
-
-            else if(event.getChat().getContents().contains("SOUL! You found a Fairy Soul!")) {
-                System.out.println("Display fairy soul to obtained");
-            }
-        }
-    }
-
-    @InvokeEvent
     public void onHypixelJoin(JoinHypixelEvent e) {
         LogUtils.getLogger().info("\u001B[33mJoining Hypixel...\u001B[0m");
-
-        for(AbstractModule module : WorkerClient.getInstance().getHandlersManager().getWorkerScripts().getModules()) {
-            System.out.println("module.getModuleConfig().getKeybind() = " + module.getModuleConfig().getKeybind());
-            module.getModuleConfig().setModuleEnabled(false, false);
-            module.setModuleConfig(module.getModuleConfig());
-        }
     }
 
     @InvokeEvent
@@ -137,7 +103,7 @@ public class ServerDetector {
 
 
     public static ServerDetector getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
     public boolean isInHypixel() {
@@ -146,5 +112,9 @@ public class ServerDetector {
 
     public boolean getMatcherIP(String ip) {
         return HYPIXEL_PATTERN.matcher(ip).find();
+    }
+
+    public ScoreboardDetector getScoreboardDetector() {
+        return scoreboardDetector;
     }
 }

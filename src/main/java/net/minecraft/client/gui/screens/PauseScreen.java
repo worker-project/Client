@@ -2,7 +2,7 @@ package net.minecraft.client.gui.screens;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.workerai.client.screens.ModulesScreen;
-import com.workerai.utils.ClientInfos;
+import com.workerai.utils.ClientUtils;
 import net.minecraft.Util;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.multiplayer.JoinMultiplayerScreen;
@@ -46,11 +46,11 @@ public class PauseScreen extends Screen
             this.minecraft.setScreen(new ConfirmLinkScreen((p_169337_) -> {
                 if (p_169337_)
                 {
-                    Util.getPlatform().openUri(ClientInfos.URL);
+                    Util.getPlatform().openUri(ClientUtils.URL);
                 }
 
                 this.minecraft.setScreen(this);
-            }, "https://" + ClientInfos.URL.toLowerCase(), true));
+            }, "https://" + ClientUtils.URL.toLowerCase(), true));
         }));
         this.addRenderableWidget(new Button(this.width / 2 - 102, this.height / 4 + 72 + -16, 98, 20, new TranslatableComponent("menu.options"), (p_96323_) ->
         {

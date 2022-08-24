@@ -26,7 +26,7 @@ public class AutomineModule extends AbstractModule<AutomineConfig> {
 
     @Override
     public Screen getModuleScreen() {
-        return new AutomineScreen(this);
+        return new AutomineScreen(this, (AutomineConfig) WorkerClient.getInstance().getModuleConfig().getConfig(this));
     }
 
     @Override

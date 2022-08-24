@@ -1,6 +1,6 @@
 package com.workerai.client.modules.fairy.utils;
 
-import com.workerai.utils.ChatDebug;
+import com.workerai.utils.ChatUtils;
 import com.workerai.utils.CheckSurroundingBlocks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -10,14 +10,14 @@ import java.util.List;
 
 public class CheckSurroundingFairies extends CheckSurroundingBlocks {
     private final int detectionBoxSize = 2;
+    private BlockPos prevBlockToCheck;
 
-    public CheckSurroundingFairies(float pPartialTicks) {
-        super(pPartialTicks);
+    public CheckSurroundingFairies() {
     }
 
     @Override
     public List<BlockPos> getSurroundingBlocks() {
-        BlockPos playerPos = new BlockPos(Minecraft.getInstance().player.getPosition(super.partialTicks));
+        BlockPos playerPos = new BlockPos(Minecraft.getInstance().player.getPosition(0));
 
         List<BlockPos> surroundingBlocks = new ArrayList<>();
 
@@ -33,20 +33,26 @@ public class CheckSurroundingFairies extends CheckSurroundingBlocks {
     }
 
     @Override
-    public boolean detectedMatchingBlock(BlockPos blockToCheck) {
+    public void detectedMatchingBlock(BlockPos blockToCheck) {
         for (BlockPos blockPos : getSurroundingBlocks()) {
             if (blockPos.getX() == blockToCheck.getX() && blockPos.getY() == blockToCheck.getY() && blockPos.getZ() == blockToCheck.getZ()) {
-                ChatDebug.sendGuiMessage(
-                        String.format(
-                                "§9You are close to a fairy located in [X: %s Y: %s Z: %s]",
-                                blockToCheck.getX(),
-                                blockToCheck.getY(),
-                                blockToCheck.getZ()
-                        )
-                );
-                return true;
+                if (!blockToCheck.equals(this.prevBlockToCheck)) {
+                    ChatUtils.sendGuiMessage(
+                            String.format(
+                                    "§9You are close to a fairy located in [X: %s Y: %s Z: %s]",
+                                    blockToCheck.getX(),
+                                    blockToCheck.getY(),
+                                    blockToCheck.getZ()
+                            )
+                    );
+                    this.prevBlockToCheck = blockToCheck;
+                }
+                break;
             }
         }
-        return false;
+    }
+
+    public BlockPos getPrevBlockToCheck() {
+        return prevBlockToCheck;
     }
 }

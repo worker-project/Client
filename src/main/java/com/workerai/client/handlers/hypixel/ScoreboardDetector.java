@@ -26,12 +26,7 @@ public class ScoreboardDetector {
         if (scoreObjective.size() > 0) {
             Objective objective = scoreObjective.iterator().next();
             if (objective != null) {
-                String line = scoreboard.getObjective(objective.getName()).getDisplayName().getString();
-                if (line != null) {
-                    currentServer = line;
-                } else {
-                    return;
-                }
+                currentServer = scoreboard.getObjective(objective.getName()).getDisplayName().getString();
             }
         }
 

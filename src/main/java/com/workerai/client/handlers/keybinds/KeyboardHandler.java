@@ -14,10 +14,10 @@ public class KeyboardHandler {
 
     @InvokeEvent
     public void onKeyPressed(KeyPressedEvent e) {
-        for (AbstractModule module : WorkerClient.getInstance().getHandlersManager().getWorkerScripts().getModules()) {
+        for (AbstractModule module : WorkerClient.getInstance().getWorkerHandler().getModuleHandler().getModules()) {
             if (ServerDetector.getInstance().isInHypixel()/* && module.hasModuleAccess() && module.getModuleConfig().getKeybind() == e.getKey()*/) {
                 if (e.getKey() == module.getModuleConfig().getKeybind()) {
-                    module.setOtherModulesEnabled(false);
+                    module.setOtherModulesDisabled(true);
                     module.getModuleConfig().setModuleEnabled(!module.getModuleConfig().isModuleEnabled(), true);
                     module.setModuleConfig(module.getModuleConfig());
                 }

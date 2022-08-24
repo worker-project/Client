@@ -18,8 +18,6 @@ apply plugin: 'eclipse'
 apply plugin: 'net.minecraftforge.gradle.patcher'
 apply plugin: "org.jetbrains.gradle.plugin.idea-ext"
 
-compileJava.options.encoding = 'UTF-8'
-
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }

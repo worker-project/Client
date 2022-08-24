@@ -18,7 +18,6 @@ public abstract class AbstractModule<T extends AbstractModuleConfig> {
     public abstract String getModuleDescription();
 
     public abstract Class<? extends AbstractModuleConfig> getModuleConfigClass();
-
     public abstract void onModuleConfigChange(T newModuleConfig);
 
     public void setModuleConfig(T config) {
@@ -26,10 +25,10 @@ public abstract class AbstractModule<T extends AbstractModuleConfig> {
         WorkerClient.getInstance().getModuleConfig().setConfig(this, config);
     }
 
-    public void setOtherModulesEnabled(boolean active) {
-        for(AbstractModule abstractModule : WorkerClient.getInstance().getHandlersManager().getWorkerScripts().getModules()) {
+    public void setOtherModulesDisabled(boolean inactive) {
+        for(AbstractModule abstractModule : WorkerClient.getInstance().getWorkerHandler().getModuleHandler().getModules()) {
             if(abstractModule != this && abstractModule.getModuleConfig().isModuleEnabled()) {
-                abstractModule.getModuleConfig().setModuleEnabled(active, true);
+                abstractModule.getModuleConfig().setModuleEnabled(!inactive, true);
                 abstractModule.setModuleConfig(abstractModule.getModuleConfig());
             }
         }

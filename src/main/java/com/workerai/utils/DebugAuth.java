@@ -26,17 +26,14 @@ public class DebugAuth {
         username = result.getProfile().getName();
         uuid = result.getProfile().getId();
         accessToken = result.getAccessToken();
-
     }
 
     public String getUsername() {
         return username;
     }
-
     public String getAccessToken() {
         return accessToken;
     }
-
     public String getUuid() {
         return uuid;
     }

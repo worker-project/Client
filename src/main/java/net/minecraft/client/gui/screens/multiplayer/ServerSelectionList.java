@@ -39,8 +39,8 @@ import java.util.Objects;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import static com.workerai.utils.ClientInfos.SERVER_IP;
-import static com.workerai.utils.ClientInfos.SERVER_NAME;
+import static com.workerai.utils.ClientUtils.SERVER_IP;
+import static com.workerai.utils.ClientUtils.SERVER_NAME;
 
 public class ServerSelectionList extends ObjectSelectionList<ServerSelectionList.Entry> {
     static final Logger LOGGER = LogUtils.getLogger();

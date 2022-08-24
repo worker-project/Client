@@ -28,7 +28,7 @@ import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.Lifecycle;
 import com.workerai.client.WorkerClient;
-import com.workerai.utils.ClientInfos;
+import com.workerai.utils.ClientUtils;
 import net.minecraft.*;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.color.item.ItemColors;
@@ -491,7 +491,7 @@ public class Minecraft extends ReentrantBlockableEventLoop<Runnable> implements 
     }
 
     private String createTitle() {
-        return ClientInfos.NAME + " - " + Minecraft.getInstance().user.getName();
+        return ClientUtils.NAME + " - " + Minecraft.getInstance().user.getName();
     }
 
     private UserApiService createUserApiService(YggdrasilAuthenticationService p_193586_, GameConfig p_193587_) {

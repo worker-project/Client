@@ -21,14 +21,21 @@ public class ModuleConfigManager {
     private final Gson gson = new GsonBuilder().serializeNulls().disableHtmlEscaping().setPrettyPrinting().registerTypeAdapter(WorkerBind.class, new ModuleConfigWriter()).create();
     private final String ext = ".config.json";
 
-    public ModuleConfigManager() throws IOException {
+    public ModuleConfigManager() {
         configDir = new File(Minecraft.getInstance().gameDirectory, "config");
-        for(AbstractModule module : WorkerClient.getInstance().getHandlersManager().getWorkerScripts().getModules()) {
+
+        for (AbstractModule module : WorkerClient.getInstance().getWorkerHandler().getModuleHandler().getModules()) {
+            checkConfig(module);
+        }
+    }
+
+    public void checkConfig(AbstractModule module) {
+        try {
             File configFile = new File(configDir, module.getModuleName().toLowerCase() + ext);
             if (configFile.exists() && configFile.isFile())
                 return;
-            if(!configFile.getParentFile().exists())
-                if(!configFile.getParentFile().mkdirs()) {
+            if (!configFile.getParentFile().exists())
+                if (!configFile.getParentFile().mkdirs()) {
                     LogUtils.getLogger().warn("Cannot create configuration folder!");
                     return;
                 }
@@ -39,12 +46,14 @@ public class ModuleConfigManager {
             }
             LogUtils.getLogger().info("Creating " + module.getModuleName() + "'s config file.");
             setConfig(module, module.getModuleConfig());
+        } catch (IOException ex) {
+            LogUtils.getLogger().error("Failed creating modules config file!");
         }
     }
 
     public AbstractModuleConfig getConfig(AbstractModule module) {
         try {
-            LogUtils.getLogger().info("Reading " + module.getModuleName() + "'s config file.");
+            LogUtils.getLogger().info("Reading \u001B[33m" + module.getModuleName() + "\u001B[0m's config file.");
             return gson.fromJson(
                     Files.readString(new File(configDir, module.getModuleName().toLowerCase() + ext).toPath(), Charsets.UTF_8),
                     (Type) module.getModuleConfigClass()
@@ -58,13 +67,21 @@ public class ModuleConfigManager {
     public void setConfig(AbstractModule module, AbstractModuleConfig config) {
         try {
             LogUtils.getLogger().info("Updating \u001B[33m" + module.getModuleName() + "\u001B[0m's config file.");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(configDir, module.getModuleName().toLowerCase() + ext )));
+            BufferedWriter writer = new BufferedWriter(new FileWriter(new File(configDir, module.getModuleName().toLowerCase() + ext)));
             writer.write(gson.toJson(config));
             writer.flush();
             writer.close();
             module.onModuleConfigChange(config);
         } catch (IOException e) {
             LogUtils.getLogger().error("Can't update " + module.getModuleName() + "'s config!", e);
+        }
+    }
+
+    public void disableModules() {
+        for (AbstractModule module : WorkerClient.getInstance().getWorkerHandler().getModuleHandler().getModules()) {
+            AbstractModuleConfig config = WorkerClient.getInstance().getModuleConfig().getConfig(module);
+            config.setModuleEnabled(false, false);
+            module.setModuleConfig(config);
         }
     }
 }

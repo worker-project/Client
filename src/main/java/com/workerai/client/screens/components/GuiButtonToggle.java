@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 
-import static com.workerai.client.modules.utils.ModuleScreenManager.*;
+import static com.workerai.client.screens.ModuleScreenManager.*;
 
 public class GuiButtonToggle extends Button {
     private final Component description;
@@ -43,6 +43,11 @@ public class GuiButtonToggle extends Button {
         this.setEnabled(!enabled);
         drawCenteredString(poseStack, Minecraft.getInstance().font, isEnabled() ? "On" : "Off", this.x + (this.width / 2), this.y + (this.height / 2) - 4, isEnabled() ? CUSTOM_GREEN : CUSTOM_RED);
         super.onClick(pMouseX, p_93372_);
+    }
+
+    @Override
+    public boolean isMouseOver(double pMouseX, double p_93673_) {
+        return super.isMouseOver(pMouseX, p_93673_);
     }
 
     public void setEnabled(boolean enabled) {

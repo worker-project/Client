@@ -14,10 +14,8 @@ import com.mojang.blaze3d.vertex.*;
 import com.mojang.logging.LogUtils;
 import com.mojang.math.*;
 import com.workerai.client.WorkerClient;
-import com.workerai.client.modules.fairy.utils.CheckSurroundingFairies;
-import com.workerai.client.modules.fairy.utils.FairyData;
-import com.workerai.utils.ChatDebug;
-import com.workerai.utils.CheckSurroundingBlocks;
+import com.workerai.client.modules.fairy.utils.FairyPositions;
+import com.workerai.utils.AccessUtils;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
 import it.unimi.dsi.fastutil.ints.Int2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.longs.*;
@@ -1462,6 +1460,7 @@ public class LevelRenderer implements ResourceManagerReloadListener, AutoCloseab
             }
         }
 
+
         for (List<Entity> list1 : this.mapEntityLists.values()) {
             for (Entity entity1 : list1) {
                 ++this.renderedEntities;
@@ -1474,18 +1473,18 @@ public class LevelRenderer implements ResourceManagerReloadListener, AutoCloseab
 
                 MultiBufferSource multibuffersource;
 
-                if (entity1 instanceof ArmorStand && WorkerClient.getInstance().getHandlersManager().getWorkerScripts().getModule("Fairy").getModuleConfig().isModuleEnabled() && FairyData.getFairyExistAtPosition(new BlockPos(entity1.getOnPos().getX(), entity1.getOnPos().getY() + 2, entity1.getOnPos().getZ()))) {
-                    FairyData fairyData = new FairyData(new BlockPos(entity1.getOnPos().getX(), entity1.getOnPos().getY() + 2, entity1.getOnPos().getZ()), "None", false);
+                if (entity1 instanceof ArmorStand && WorkerClient.getInstance().getWorkerHandler().getModuleHandler().getModule("Fairy").getModuleConfig().isModuleEnabled() && FairyPositions.doesFairyExistAtPosition(new BlockPos(entity1.getOnPos().getX(), entity1.getOnPos().getY() + 2, entity1.getOnPos().getZ()))) {
+                    BlockPos fairyPos = new BlockPos(entity1.getOnPos().getX(), entity1.getOnPos().getY() + 2, entity1.getOnPos().getZ());
 
                     flag5 = true;
                     OutlineBufferSource outlinebuffersource = this.renderBuffers.outlineBufferSource();
                     multibuffersource = outlinebuffersource;
 
-                    outlinebuffersource.setColor(fairyData.getFairyColor()[0], fairyData.getFairyColor()[1], fairyData.getFairyColor()[2], 255);
+                    outlinebuffersource.setColor(255, 0, 0, 255);
 
-                    new CheckSurroundingFairies(pPartialTick).detectedMatchingBlock(fairyData.getFairyPosition());
+                    AccessUtils.getInstance().getSurroundingFairies().detectedMatchingBlock(fairyPos);
                 }
-                else if (this.shouldShowEntityOutlines() && this.minecraft.shouldEntityAppearGlowing(entity1)) {
+                if (this.shouldShowEntityOutlines() && this.minecraft.shouldEntityAppearGlowing(entity1)) {
                     flag5 = true;
                     OutlineBufferSource outlinebuffersource = this.renderBuffers.outlineBufferSource();
                     multibuffersource = outlinebuffersource;

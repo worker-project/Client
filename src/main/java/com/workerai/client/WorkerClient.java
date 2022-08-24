@@ -1,18 +1,14 @@
 package com.workerai.client;
 
-import com.mojang.logging.LogUtils;
 import com.workerai.client.modules.utils.ModuleConfigManager;
-import com.workerai.utils.api.TokenResponse;
+import com.workerai.utils.response.TokenResponse;
 import net.minecraft.CrashReport;
 import net.minecraft.ReportedException;
 
-import java.io.IOException;
-
 public class WorkerClient {
     private static WorkerClient INSTANCE;
-    private final Handlers handlersManager;
-
-    private ModuleConfigManager moduleConfig;
+    private final WorkerHandler workerHandler;
+    private final ModuleConfigManager moduleConfig;
     private TokenResponse tokenResponse;
 
     public WorkerClient(String[] userData) {
@@ -20,18 +16,15 @@ public class WorkerClient {
 
         checkTokenAccess(userData);
 
-        this.handlersManager = new Handlers();
-        this.handlersManager.registerHandlers();
+        this.workerHandler = new WorkerHandler();
+        this.workerHandler.registerHandlers();
 
-        try {
-            this.moduleConfig = new ModuleConfigManager();
-        } catch (IOException e) {
-            LogUtils.getLogger().error("Couldn't create config file", e);
-        }
+        this.moduleConfig = new ModuleConfigManager();
+        this.moduleConfig.disableModules();
     }
 
     private void checkTokenAccess(String[] userData) {
-        if(checkForDevEnvironment()) {
+        if (checkForDevEnvironment()) {
             tokenResponse = new TokenResponse(true, true);
             return;
         }
@@ -56,15 +49,17 @@ public class WorkerClient {
     public ModuleConfigManager getModuleConfig() {
         return this.moduleConfig;
     }
+
     public TokenResponse getTokenResponse() {
         return this.tokenResponse;
     }
 
-    public static WorkerClient getInstance() {
-        return INSTANCE;
+
+    public WorkerHandler getWorkerHandler() {
+        return this.workerHandler;
     }
 
-    public Handlers getHandlersManager() {
-        return handlersManager;
+    public static WorkerClient getInstance() {
+        return INSTANCE;
     }
 }

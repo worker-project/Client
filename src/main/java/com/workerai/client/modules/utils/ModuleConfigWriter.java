@@ -6,7 +6,6 @@ import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.workerai.client.WorkerClient;
 import com.workerai.client.handlers.keybinds.WorkerBind;
-import net.minecraft.client.Minecraft;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -46,9 +45,9 @@ public class ModuleConfigWriter extends TypeAdapter<WorkerBind> {
 
         reader.endObject();
         String finalName = name;
-        Optional<WorkerBind> t = WorkerClient.getInstance().getHandlersManager().getKeyboardHandler().getWorkerKeybinds().stream().filter(workerBind -> workerBind.getKeyDescription().equals(finalName)).findFirst();
-        if(value != 0) {
-            if(t.isPresent()) {
+        Optional<WorkerBind> t = WorkerClient.getInstance().getWorkerHandler().getKeyboardHandler().getWorkerKeybinds().stream().filter(workerBind -> workerBind.getKeyDescription().equals(finalName)).findFirst();
+        if (value != 0) {
+            if (t.isPresent()) {
                 t.get().setKeyCode(value);
             }
         }

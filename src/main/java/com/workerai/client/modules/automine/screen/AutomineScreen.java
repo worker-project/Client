@@ -1,11 +1,9 @@
 package com.workerai.client.modules.automine.screen;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.workerai.client.WorkerClient;
-import com.workerai.client.modules.AbstractModule;
 import com.workerai.client.modules.automine.AutomineModule;
 import com.workerai.client.modules.automine.config.AutomineConfig;
-import com.workerai.client.modules.utils.ModuleScreenManager;
+import com.workerai.client.screens.ModuleScreenManager;
 import com.workerai.client.screens.ModulesScreen;
 import com.workerai.client.screens.components.GuiButtonBack;
 import com.workerai.client.screens.components.GuiButtonKey;
@@ -20,17 +18,16 @@ import net.minecraft.network.chat.TextComponent;
 public class AutomineScreen extends Screen implements GuiButtonSlider.IResponder {
     private final AutomineModule module;
 
-    public AutomineScreen(AbstractModule module) {
+    public AutomineScreen(AutomineModule module, AutomineConfig config) {
         super(new TextComponent("Settings | " + module.getModuleName() + " Module"));
-        this.module = (AutomineModule) module;
+        this.module = module;
+
+        this.module.setModuleConfig(config);
     }
 
     @Override
     public void init() {
-        AutomineConfig config = (AutomineConfig) WorkerClient.getInstance().getModuleConfig().getConfig(this.module);
-        this.module.setModuleConfig(config);
-
-        this.addRenderableWidget(new GuiButtonBack((this.width / 2) + 105, (this.height / 2) - 74, 12, 12, new TextComponent(""), ResourceManager.BACK_ICON, (p_96274_) ->
+        this.addRenderableWidget(new GuiButtonBack((this.width / 2) + 130, (this.height / 2) - 74, 12, 12, new TextComponent(""), ResourceManager.BACK_ICON, (p_96274_) ->
         {
             this.minecraft.setScreen(new ModulesScreen(this));
         }));

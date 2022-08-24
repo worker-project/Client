@@ -2,14 +2,13 @@ package com.workerai.client.screens.components;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.workerai.client.handlers.keybinds.WorkerBind;
 import com.workerai.client.modules.AbstractModule;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import org.lwjgl.glfw.GLFW;
 
-import static com.workerai.client.modules.utils.ModuleScreenManager.*;
+import static com.workerai.client.screens.ModuleScreenManager.*;
 
 public class GuiButtonKey extends Button {
     private final AbstractModule module;

@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import javax.annotation.Nullable;
 import java.util.List;
 
-import static com.workerai.utils.ClientInfos.SERVER_NAME;
+import static com.workerai.utils.ClientUtils.SERVER_NAME;
 
 public class JoinMultiplayerScreen extends Screen {
     private static final Logger LOGGER = LogUtils.getLogger();

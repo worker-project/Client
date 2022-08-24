@@ -7,8 +7,8 @@ public class AutomineConfig extends AbstractModuleConfig {
     private boolean autoDrop;
     private boolean autoReconnect;
     private boolean autoCraft;
-    private int keyBind;
     private int ghostBlockDelay;
+    private int keyBind;
 
     public AutomineConfig(boolean autoDrop, boolean autoReconnect, boolean autoCraft, int keyBind, int ghostBlockDelay) {
         this.automineModuleEnabled = false;
@@ -19,12 +19,10 @@ public class AutomineConfig extends AbstractModuleConfig {
         this.ghostBlockDelay = ghostBlockDelay;
 
         this.keyBind = keyBind;
-
-        System.out.println("\u001B[35m automineConfig args \u001B[0m");
     }
 
     public AutomineConfig() {
-        AutomineConfig config = (AutomineConfig) getDefaultConfig();
+        AutomineConfig config = getDefaultConfig();
 
         this.automineModuleEnabled = false;
 
@@ -34,13 +32,6 @@ public class AutomineConfig extends AbstractModuleConfig {
         this.ghostBlockDelay = config.getGhostBlockDelay();
 
         this.keyBind = config.keyBind;
-
-        System.out.println("\u001B[35m automineConfig \u001B[0m");
-    }
-
-    @Override
-    public AbstractModuleConfig getDefaultConfig() {
-        return new AutomineConfig(false, false, false, 999, 10);
     }
 
     @Override
@@ -51,6 +42,17 @@ public class AutomineConfig extends AbstractModuleConfig {
     @Override
     public boolean isModuleEnabled() {
         return automineModuleEnabled;
+    }
+
+    @Override
+    public void setKeybind(int keyBind) {
+        this.keyBind = keyBind;
+    }
+
+    @Override
+    public void setModuleEnabled(boolean active, boolean debug) {
+        this.automineModuleEnabled = active;
+        if (debug) displayDebugMessage("Module", active, "Automine");
     }
 
     @Override
@@ -73,17 +75,6 @@ public class AutomineConfig extends AbstractModuleConfig {
     }
 
     @Override
-    public void setKeybind(int keyBind) {
-        this.keyBind = keyBind;
-    }
-
-    @Override
-    public void setModuleEnabled(boolean active, boolean debug) {
-        this.automineModuleEnabled = active;
-        if (debug) displayDebugMessage("Module", active, "Automine");
-    }
-
-    @Override
     public void setAutoReconnect(boolean active, boolean debug) {
         this.autoReconnect = active;
         if (debug) displayDebugMessage("Automine", active, "AutoReconnect");
@@ -103,5 +94,10 @@ public class AutomineConfig extends AbstractModuleConfig {
 
     public void setGhostBlockDelay(int delay) {
         this.ghostBlockDelay = delay;
+    }
+
+    @Override
+    public AutomineConfig getDefaultConfig() {
+        return new AutomineConfig(false, false, false, 999, 10);
     }
 }

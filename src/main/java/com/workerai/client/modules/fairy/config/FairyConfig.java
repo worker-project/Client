@@ -1,119 +1,75 @@
 package com.workerai.client.modules.fairy.config;
 
-import com.workerai.client.modules.fairy.utils.FairyData;
 import com.workerai.client.modules.fairy.utils.FairyPositions;
 import com.workerai.client.modules.utils.AbstractModuleConfig;
+import net.minecraft.core.BlockPos;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FairyConfig extends AbstractModuleConfig {
-    private final List<FairyData> missingFairies;
-    private final List<FairyData> collectedFairies;
-    private final List<FairyData> displayedFairies;
     private boolean fairyModuleEnabled;
+    private boolean hubDisplay;
+    private boolean winterDisplay;
+    private boolean dungeonDisplay;
+    private boolean farmingDisplay;
+    private boolean crimsonDisplay;
+    private boolean foragingDisplay;
+    private boolean combatOneDisplay;
+    private boolean combatThreeDisplay;
+    private boolean goldMineDisplay;
+    private boolean deepCavernsDisplay;
+    private boolean miningThreeDisplay;
     private int keyBind;
 
-    private boolean hubFairyEnabled;
-    private boolean dungeonFairyEnabled;
-    private boolean miningOneFairyEnabled;
-    private boolean miningTwoFairyEnabled;
-    private boolean farmingFairyEnabled;
-    private boolean winterFairyEnabled;
+    private final List<BlockPos> allFairies;
+    private final List<BlockPos> collectedFairies;
 
-    public FairyConfig(int keyBind, List<FairyData> missingFairies, List<FairyData> collectedFairies, List<FairyData> displayedFairies) {
+    public enum LIST {
+        COLLECTED,
+        ALL,
+    }
+
+    public enum LOCATION {
+        HUB,
+        WINTER,
+        DUNGEON,
+        FORAGING,
+        CRIMSON,
+        FARMING,
+        COMBAT_1,
+        COMBAT_3,
+        GOLD_MINE,
+        DEEP_CAVERNS,
+        MINING_3
+    }
+
+    public FairyConfig(int keyBind, boolean huDisplay, boolean winterDisplay, boolean dungeonDisplay, List<BlockPos> allFairies, List<BlockPos> collectedFairies) {
         this.fairyModuleEnabled = false;
 
-        this.missingFairies = missingFairies;
+        this.allFairies = allFairies;
         this.collectedFairies = collectedFairies;
-        this.displayedFairies = displayedFairies;
+
+        this.hubDisplay = huDisplay;
+        this.dungeonDisplay = dungeonDisplay;
+        this.winterDisplay = winterDisplay;
 
         this.keyBind = keyBind;
     }
 
     public FairyConfig() {
-        FairyConfig config = (FairyConfig) getDefaultConfig();
+        FairyConfig config = getDefaultConfig();
 
         this.fairyModuleEnabled = false;
 
-        this.missingFairies = config.getMissingFairies();
-        this.collectedFairies = config.getCollectedFairies();
-        this.displayedFairies = config.getDisplayedFairies();
+        this.allFairies = config.allFairies;
+        this.collectedFairies = config.collectedFairies;
+
+        this.hubDisplay = config.hubDisplay;
+        this.dungeonDisplay = config.dungeonDisplay;
+        this.winterDisplay = config.winterDisplay;
 
         this.keyBind = config.keyBind;
-    }
-
-    public void addDisplayedFairy(FairyData fairyData) {
-        displayedFairies.add(fairyData);
-    }
-
-    public void addMissingFairy(FairyData fairyData) {
-        missingFairies.add(fairyData);
-    }
-
-    public void addCollectedFairy(FairyData fairyData) {
-        collectedFairies.add(fairyData);
-    }
-
-    public void removeDisplayedFairy(FairyData fairyData) {
-        displayedFairies.remove(fairyData);
-    }
-
-    public void removeMissingFairy(FairyData fairyData) {
-        missingFairies.remove(fairyData);
-    }
-
-    public void removeCollectedFairy(FairyData fairyData) {
-        collectedFairies.remove(fairyData);
-    }
-
-    public void addDisplayedFairy(List<FairyData> fairiesData) {
-        for (FairyData fairyData : fairiesData) {
-            addDisplayedFairy(fairyData);
-        }
-    }
-
-    public boolean addMissingFairy(List<FairyData> fairiesData) {
-        for (FairyData fairyData : fairiesData) {
-            addMissingFairy(fairyData);
-        }
-        return true;
-    }
-
-    public void addCollectedFairies(List<FairyData> fairiesData) {
-        for (FairyData fairyData : fairiesData) {
-            addCollectedFairy(fairyData);
-        }
-    }
-
-    public void removeDisplayedFairies(List<FairyData> fairiesData) {
-        for (FairyData fairyData : fairiesData) {
-            removeDisplayedFairy(fairyData);
-        }
-    }
-
-    public void removeMissingFairies(List<FairyData> fairiesData) {
-        for (FairyData fairyData : fairiesData) {
-            removeMissingFairy(fairyData);
-        }
-    }
-
-    public void removeCollectedFairies(List<FairyData> fairiesData) {
-        for (FairyData fairyData : fairiesData) {
-            removeCollectedFairy(fairyData);
-        }
-    }
-
-    public List<FairyData> getCollectedFairies() {
-        return collectedFairies;
-    }
-
-    public List<FairyData> getMissingFairies() {
-        return missingFairies;
-    }
-
-    public List<FairyData> getDisplayedFairies() {
-        return displayedFairies;
     }
 
     @Override
@@ -137,115 +93,151 @@ public class FairyConfig extends AbstractModuleConfig {
         if (debug) displayDebugMessage("Module", active, "Fairy");
     }
 
-    @Override
-    public AbstractModuleConfig getDefaultConfig() {
-        return new FairyConfig(999, new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
-    }
+    public void setDisplay(boolean active, LOCATION location, boolean debug) {
+        switch (location) {
+            case HUB -> this.hubDisplay = setDisplayHelper(active, debug, FairyPositions.HUB, "Hub");
 
-    public boolean isHubFairyEnabled() {
-        return hubFairyEnabled;
-    }
+            case WINTER -> this.winterDisplay = setDisplayHelper(active, debug, FairyPositions.WINTER, "Winter");
 
-    public boolean isDungeonFairyEnabled() {
-        return dungeonFairyEnabled;
-    }
+            case DUNGEON -> this.dungeonDisplay = setDisplayHelper(active, debug, FairyPositions.DUNGEON, "Dungeon");
 
-    public boolean isMiningOneFairyEnabled() {
-        return miningOneFairyEnabled;
-    }
+            case CRIMSON -> this.crimsonDisplay = setDisplayHelper(active, debug, FairyPositions.CRIMSON, "Crimson");
+            case FORAGING -> this.foragingDisplay = setDisplayHelper(active, debug, FairyPositions.FORAGING, "Foraging");
+            case FARMING -> this.farmingDisplay = setDisplayHelper(active, debug, FairyPositions.FARMING, "Farming");
 
-    public boolean isMiningTwoFairyEnabled() {
-        return miningTwoFairyEnabled;
-    }
+            case COMBAT_1 -> this.combatOneDisplay = setDisplayHelper(active, debug, FairyPositions.COMBAT_1, "Combat One");
+            case COMBAT_3 -> this.combatThreeDisplay = setDisplayHelper(active, debug, FairyPositions.COMBAT_3, "Combat Three");
 
-    public boolean isWinterFairyEnabled() {
-        return winterFairyEnabled;
-    }
-
-    public void setHubFairyEnabled(boolean active, boolean debug) {
-        this.hubFairyEnabled = active;
-        if (debug) displayDebugMessage("Fairy", active, "Hub");
-
-        if (this.isHubFairyEnabled()) {
-            System.out.println("Added");
-            addDisplayedFairy(FairyPositions.HUB);
-        } else {
-            System.out.println("Removed");
-            removeDisplayedFairies(FairyPositions.HUB);
+            case GOLD_MINE -> this.goldMineDisplay = setDisplayHelper(active, debug, FairyPositions.GOLD_MINE, "Gold Mine");
+            case DEEP_CAVERNS -> this.deepCavernsDisplay = setDisplayHelper(active, debug, FairyPositions.DEEP_CAVERNS, "Deep Caverns");
+            case MINING_3 -> this.miningThreeDisplay = setDisplayHelper(active, debug, FairyPositions.MINING_3, "Mining Three");
         }
     }
 
-    public void setDungeonFairyEnabled(boolean active, boolean debug) {
-        this.dungeonFairyEnabled = active;
-        if (debug) displayDebugMessage("Fairy", active, "Dungeon");
-
-        if (this.isDungeonFairyEnabled()) {
-            addDisplayedFairy(FairyPositions.DUNGEON);
+    private boolean setDisplayHelper(boolean active, boolean debug, List<BlockPos> fairyPositions, String fairyLocation) {
+        if (active) {
+            this.addFairies(fairyPositions, LIST.ALL);
         } else {
-            removeDisplayedFairies(FairyPositions.DUNGEON);
+            this.removeFairies(fairyPositions, LIST.ALL);
         }
+        if (debug) displayDebugMessage("Fairy", active, fairyLocation + " Display");
+        return active;
     }
 
-    public void setMiningOneFairyEnabled(boolean active, boolean debug) {
-        this.miningOneFairyEnabled = active;
-        if (debug) displayDebugMessage("Fairy", active, "Mining 1");
-
-        if (this.isMiningOneFairyEnabled()) {
-            addDisplayedFairy(FairyPositions.MINING_1);
-        } else {
-            removeDisplayedFairies(FairyPositions.MINING_1);
+    public boolean isDisplay(LOCATION location) {
+        switch (location) {
+            case HUB -> { return this.hubDisplay; }
+            case WINTER -> {
+                return this.winterDisplay;
+            }
+            case DUNGEON -> {
+                return this.dungeonDisplay;
+            }
+            case FORAGING -> {
+                return this.foragingDisplay;
+            }
+            case FARMING -> {
+                return this.farmingDisplay;
+            }
+            case CRIMSON -> {
+                return this.crimsonDisplay;
+            }
+            case COMBAT_1 -> {
+                return this.combatOneDisplay;
+            }
+            case COMBAT_3 -> {
+                return this.combatThreeDisplay;
+            }
+            case GOLD_MINE -> {
+                return this.goldMineDisplay;
+            }
+            case DEEP_CAVERNS -> {
+                return this.deepCavernsDisplay;
+            }
+            case MINING_3 -> {
+                return this.miningThreeDisplay;
+            }
         }
-    }
-
-    public void setMiningTwoFairyEnabled(boolean active, boolean debug) {
-        this.miningTwoFairyEnabled = active;
-        if (debug) displayDebugMessage("Fairy", active, "Mining 2");
-
-        if (this.isMiningTwoFairyEnabled()) {
-            addDisplayedFairy(FairyPositions.MINING_2);
-        } else {
-            removeDisplayedFairies(FairyPositions.MINING_2);
-        }
-    }
-
-    public void setWinterFairyEnabled(boolean active, boolean debug) {
-        this.winterFairyEnabled = active;
-        if (debug) displayDebugMessage("Fairy", active, "Winter");
-
-        if (this.isWinterFairyEnabled()) {
-            addDisplayedFairy(FairyPositions.WINTER);
-        } else {
-            removeDisplayedFairies(FairyPositions.WINTER);
-        }
-    }
-
-    @Override
-    public boolean isAutoReconnect() {
         return false;
     }
 
-    @Override
-    public boolean isAutoDrop() {
+    public void addFairies(List<BlockPos> fairiesPos, LIST list) {
+        switch (list) {
+            case ALL:
+                for (BlockPos fairyPos : fairiesPos) {
+                    addAllFairies(fairyPos);
+                }
+                break;
+            case COLLECTED:
+                for (BlockPos fairyPos : fairiesPos) {
+                    addCollectedFairies(fairyPos);
+                }
+                break;
+        }
+    }
+
+    public void removeFairies(List<BlockPos> fairiesPos, LIST list) {
+        switch (list) {
+            case ALL:
+                for (BlockPos fairyPos : fairiesPos) {
+                    removeAllFairies(fairyPos);
+                }
+                break;
+            case COLLECTED:
+                for (BlockPos fairyPos : fairiesPos) {
+                    removeCollectedFairies(fairyPos);
+                }
+                break;
+        }
+    }
+
+    public void addCollectedFairies(BlockPos fairyPos) {
+        if (collectedFairies.contains(fairyPos)) return;
+        collectedFairies.add(fairyPos);
+    }
+
+    void addAllFairies(BlockPos fairyPos) {
+        if (allFairies.contains(fairyPos)) return;
+        allFairies.add(fairyPos);
+    }
+
+    void removeCollectedFairies(BlockPos fairyPos) {
+        if (!collectedFairies.contains(fairyPos)) return;
+        collectedFairies.remove(fairyPos);
+    }
+
+    void removeAllFairies(BlockPos fairyPos) {
+        if (!allFairies.contains(fairyPos)) return;
+        ;
+        allFairies.remove(fairyPos);
+    }
+
+    public boolean isAlreadyListed(List<BlockPos> fairiesPos, LIST list) {
+        switch (list) {
+            case ALL:
+                for (BlockPos fairyPos : fairiesPos) {
+                    if (allFairies.contains(fairyPos)) return true;
+                }
+                break;
+            case COLLECTED:
+                for (BlockPos fairyPos : fairiesPos) {
+                    if (collectedFairies.contains(fairyPos)) return true;
+                }
+                break;
+        }
         return false;
     }
 
-    @Override
-    public boolean isAutoCraft() {
-        return false;
+    public List<BlockPos> getAllFairies() {
+        return allFairies;
+    }
+
+    public List<BlockPos> getCollectedFairies() {
+        return collectedFairies;
     }
 
     @Override
-    public void setAutoReconnect(boolean active, boolean debug) {
-
-    }
-
-    @Override
-    public void setAutoDrop(boolean active, boolean debug) {
-
-    }
-
-    @Override
-    public void setAutoCraft(boolean active, boolean debug) {
-
+    public FairyConfig getDefaultConfig() {
+        return new FairyConfig(999, false, false, false, new ArrayList<>(), new ArrayList<>());
     }
 }

@@ -6,7 +6,6 @@ import com.workerai.client.modules.fairy.config.FairyConfig;
 import com.workerai.client.modules.fairy.screen.FairyScreen;
 import com.workerai.client.modules.utils.AbstractModuleConfig;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.world.level.block.Block;
 
 public class FairyModule extends AbstractModule<FairyConfig> {
     private FairyConfig fairyConfig;
@@ -32,7 +31,7 @@ public class FairyModule extends AbstractModule<FairyConfig> {
 
     @Override
     public Screen getModuleScreen() {
-        return new FairyScreen(this);
+        return new FairyScreen(this, (FairyConfig) WorkerClient.getInstance().getModuleConfig().getConfig(this));
     }
 
     @Override

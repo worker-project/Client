@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AutomineUtils {
-	/*private static final Minecraft mc = Minecraft.getInstance();
+	/*private static final Minecraft mc = Minecraft.getINSTANCE();
 	public static boolean hasBlockInPointer(Block blockMining) {
 
 		if (mc.mouseHandler. != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
@@ -68,14 +68,14 @@ public class AutomineUtils {
 
 	public static boolean isInCraftingMenu() {
 		if (mc.thePlayer.openContainer.windowId == 0) {
-			WorkerAI.getInstance().getLogger().info("gui is not opened");
+			WorkerAI.getINSTANCE().getLogger().info("gui is not opened");
 			return false;
 		} else {
 			List<Integer> list = new ArrayList<>();
 			for (int i = 0; i < mc.thePlayer.openContainer.getInventory().size(); ++i) {
 				ItemStack itemstack = (ItemStack) mc.thePlayer.openContainer.getInventory().get(i);
 				if (itemstack == null) {
-					WorkerAI.getInstance().getLogger().info(i);
+					WorkerAI.getINSTANCE().getLogger().info(i);
 					list.add(i);
 				}
 			}
@@ -88,7 +88,7 @@ public class AutomineUtils {
 
 	public static boolean isEnderchestFull() {
 		for (int i = 0; i < 5; i++) {
-			WorkerAI.getInstance().getLogger().info(String.format("Enderchest Size: %s", retrieveContainerSlotSize()));
+			WorkerAI.getINSTANCE().getLogger().info(String.format("Enderchest Size: %s", retrieveContainerSlotSize()));
 		}
 		boolean flag = true;
 
